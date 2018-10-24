@@ -1,0 +1,8 @@
+F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\02_Infrastructure\Grapefruit.Infrastructure\bin\Debug\netcoreapp2.1\Grapefruit.Infrastructure.deps.json
+F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\02_Infrastructure\Grapefruit.Infrastructure\bin\Debug\netcoreapp2.1\Grapefruit.Infrastructure.dll
+F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\02_Infrastructure\Grapefruit.Infrastructure\bin\Debug\netcoreapp2.1\Grapefruit.Infrastructure.pdb
+F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\02_Infrastructure\Grapefruit.Infrastructure\obj\Debug\netcoreapp2.1\Grapefruit.Infrastructure.csproj.CoreCompileInputs.cache
+F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\02_Infrastructure\Grapefruit.Infrastructure\obj\Debug\netcoreapp2.1\Grapefruit.Infrastructure.AssemblyInfoInputs.cache
+F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\02_Infrastructure\Grapefruit.Infrastructure\obj\Debug\netcoreapp2.1\Grapefruit.Infrastructure.AssemblyInfo.cs
+F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\02_Infrastructure\Grapefruit.Infrastructure\obj\Debug\netcoreapp2.1\Grapefruit.Infrastructure.dll
+F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\02_Infrastructure\Grapefruit.Infrastructure\obj\Debug\netcoreapp2.1\Grapefruit.Infrastructure.pdb

@@ -1,0 +1,8 @@
+F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\03_Application\Grapefruit.Application\bin\Debug\netcoreapp2.1\Grapefruit.Application.deps.json
+F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\03_Application\Grapefruit.Application\bin\Debug\netcoreapp2.1\Grapefruit.Application.dll
+F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\03_Application\Grapefruit.Application\bin\Debug\netcoreapp2.1\Grapefruit.Application.pdb
+F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\03_Application\Grapefruit.Application\obj\Debug\netcoreapp2.1\Grapefruit.Application.csproj.CoreCompileInputs.cache
+F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\03_Application\Grapefruit.Application\obj\Debug\netcoreapp2.1\Grapefruit.Application.AssemblyInfoInputs.cache
+F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\03_Application\Grapefruit.Application\obj\Debug\netcoreapp2.1\Grapefruit.Application.AssemblyInfo.cs
+F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\03_Application\Grapefruit.Application\obj\Debug\netcoreapp2.1\Grapefruit.Application.dll
+F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\03_Application\Grapefruit.Application\obj\Debug\netcoreapp2.1\Grapefruit.Application.pdb
