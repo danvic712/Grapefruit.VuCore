@@ -3,7 +3,6 @@ F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\Grapefruit.WebApi\bin\Debug\netcoreap
 F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\Grapefruit.WebApi\bin\Debug\netcoreapp2.1\Grapefruit.WebApi.runtimeconfig.dev.json
 F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\Grapefruit.WebApi\bin\Debug\netcoreapp2.1\Grapefruit.WebApi.dll
 F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\Grapefruit.WebApi\bin\Debug\netcoreapp2.1\Grapefruit.WebApi.pdb
-F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\Grapefruit.WebApi\obj\Debug\netcoreapp2.1\Grapefruit.WebApi.csprojAssemblyReference.cache
 F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\Grapefruit.WebApi\obj\Debug\netcoreapp2.1\Grapefruit.WebApi.csproj.CoreCompileInputs.cache
 F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\Grapefruit.WebApi\obj\Debug\netcoreapp2.1\Grapefruit.WebApi.RazorAssemblyInfo.cache
 F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\Grapefruit.WebApi\obj\Debug\netcoreapp2.1\Grapefruit.WebApi.RazorAssemblyInfo.cs
@@ -12,3 +11,4 @@ F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\Grapefruit.WebApi\obj\Debug\netcoreap
 F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\Grapefruit.WebApi\obj\Debug\netcoreapp2.1\Grapefruit.WebApi.RazorTargetAssemblyInfo.cache
 F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\Grapefruit.WebApi\obj\Debug\netcoreapp2.1\Grapefruit.WebApi.dll
 F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\Grapefruit.WebApi\obj\Debug\netcoreapp2.1\Grapefruit.WebApi.pdb
+F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\Grapefruit.WebApi\obj\Debug\netcoreapp2.1\Grapefruit.WebApi.csprojAssemblyReference.cache

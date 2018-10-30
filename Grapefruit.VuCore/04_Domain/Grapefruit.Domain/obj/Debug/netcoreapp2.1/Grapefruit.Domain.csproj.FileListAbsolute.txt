@@ -1,9 +1,9 @@
 F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\04_Domain\Grapefruit.Domain\bin\Debug\netcoreapp2.1\Grapefruit.Domain.deps.json
 F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\04_Domain\Grapefruit.Domain\bin\Debug\netcoreapp2.1\Grapefruit.Domain.dll
 F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\04_Domain\Grapefruit.Domain\bin\Debug\netcoreapp2.1\Grapefruit.Domain.pdb
-F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\04_Domain\Grapefruit.Domain\obj\Debug\netcoreapp2.1\Grapefruit.Domain.csprojAssemblyReference.cache
 F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\04_Domain\Grapefruit.Domain\obj\Debug\netcoreapp2.1\Grapefruit.Domain.csproj.CoreCompileInputs.cache
 F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\04_Domain\Grapefruit.Domain\obj\Debug\netcoreapp2.1\Grapefruit.Domain.AssemblyInfoInputs.cache
 F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\04_Domain\Grapefruit.Domain\obj\Debug\netcoreapp2.1\Grapefruit.Domain.AssemblyInfo.cs
 F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\04_Domain\Grapefruit.Domain\obj\Debug\netcoreapp2.1\Grapefruit.Domain.dll
 F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\04_Domain\Grapefruit.Domain\obj\Debug\netcoreapp2.1\Grapefruit.Domain.pdb
+F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\04_Domain\Grapefruit.Domain\obj\Debug\netcoreapp2.1\Grapefruit.Domain.csprojAssemblyReference.cache

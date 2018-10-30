@@ -4,4 +4,10 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Permission - 复制\**" />
+    <EmbeddedResource Remove="Permission - 复制\**" />
+    <None Remove="Permission - 复制\**" />
+  </ItemGroup>
+
 </Project>
