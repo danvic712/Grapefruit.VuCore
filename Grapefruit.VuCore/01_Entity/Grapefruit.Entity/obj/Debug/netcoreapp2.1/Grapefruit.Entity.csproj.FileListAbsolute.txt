@@ -6,4 +6,3 @@ F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\01_Entity\Grapefruit.Entity\obj\Debug
 F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\01_Entity\Grapefruit.Entity\obj\Debug\netcoreapp2.1\Grapefruit.Entity.AssemblyInfo.cs
 F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\01_Entity\Grapefruit.Entity\obj\Debug\netcoreapp2.1\Grapefruit.Entity.dll
 F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\01_Entity\Grapefruit.Entity\obj\Debug\netcoreapp2.1\Grapefruit.Entity.pdb
-F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\01_Entity\Grapefruit.Entity\obj\Debug\netcoreapp2.1\Grapefruit.Entity.csprojAssemblyReference.cache

@@ -6,4 +6,3 @@ F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\02_Infrastructure\Grapefruit.Infrastr
 F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\02_Infrastructure\Grapefruit.Infrastructure\obj\Debug\netcoreapp2.1\Grapefruit.Infrastructure.AssemblyInfo.cs
 F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\02_Infrastructure\Grapefruit.Infrastructure\obj\Debug\netcoreapp2.1\Grapefruit.Infrastructure.dll
 F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\02_Infrastructure\Grapefruit.Infrastructure\obj\Debug\netcoreapp2.1\Grapefruit.Infrastructure.pdb
-F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\02_Infrastructure\Grapefruit.Infrastructure\obj\Debug\netcoreapp2.1\Grapefruit.Infrastructure.csprojAssemblyReference.cache
