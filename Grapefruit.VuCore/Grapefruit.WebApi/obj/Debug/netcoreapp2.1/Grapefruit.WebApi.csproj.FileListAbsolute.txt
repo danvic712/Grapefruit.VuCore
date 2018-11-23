@@ -11,3 +11,4 @@ F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\Grapefruit.WebApi\obj\Debug\netcoreap
 F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\Grapefruit.WebApi\obj\Debug\netcoreapp2.1\Grapefruit.WebApi.RazorTargetAssemblyInfo.cache
 F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\Grapefruit.WebApi\obj\Debug\netcoreapp2.1\Grapefruit.WebApi.dll
 F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\Grapefruit.WebApi\obj\Debug\netcoreapp2.1\Grapefruit.WebApi.pdb
+F:\Git\Grapefruit.VuCore\Grapefruit.VuCore\Grapefruit.WebApi\obj\Debug\netcoreapp2.1\Grapefruit.WebApi.csprojAssemblyReference.cache
