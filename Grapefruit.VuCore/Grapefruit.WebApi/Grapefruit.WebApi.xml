@@ -4,35 +4,35 @@
         <name>Grapefruit.WebApi</name>
     </assembly>
     <members>
-        <member name="M:Grapefruit.WebApi.Controllers.ValuesController.Get">
+        <member name="M:Grapefruit.WebApi.Controllers.v1.ValuesController.Get">
             <summary>
-            GET api/values
+            GET请求： api/values
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Grapefruit.WebApi.Controllers.ValuesController.Get(System.Int32)">
+        <member name="M:Grapefruit.WebApi.Controllers.v1.ValuesController.Get(System.Int32)">
             <summary>
-            GET api/values/5
+            GET请求： api/values/5
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:Grapefruit.WebApi.Controllers.ValuesController.Post(System.String)">
+        <member name="M:Grapefruit.WebApi.Controllers.v1.ValuesController.Post(System.String)">
             <summary>
-            POST api/values
+            POST请求： api/values
             </summary>
             <param name="value"></param>
         </member>
-        <member name="M:Grapefruit.WebApi.Controllers.ValuesController.Put(System.Int32,System.String)">
+        <member name="M:Grapefruit.WebApi.Controllers.v1.ValuesController.Put(System.Int32,System.String)">
             <summary>
-            PUT api/values/5
+            PUT请求： api/values/5
             </summary>
             <param name="id"></param>
             <param name="value"></param>
         </member>
-        <member name="M:Grapefruit.WebApi.Controllers.ValuesController.Delete(System.Int32)">
+        <member name="M:Grapefruit.WebApi.Controllers.v1.ValuesController.Delete(System.Int32)">
             <summary>
-            DELETE api/values/5
+            DELETE请求： api/values/5
             </summary>
             <param name="id"></param>
         </member>

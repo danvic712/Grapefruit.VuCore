@@ -48,6 +48,17 @@ namespace Grapefruit.WebApi
 
             #endregion
 
+            #region Configure API Version
+
+            services.AddApiVersioning(o =>
+            {
+                o.ReportApiVersions = true;//return versions in a response header
+                o.DefaultApiVersion = new ApiVersion(1, 0);//default version select 
+                o.AssumeDefaultVersionWhenUnspecified = true;//if not specifying an api version,show the default version
+            });
+
+            #endregion
+
             #region Configure Swagger
 
             services.AddSwaggerGen(s =>
@@ -63,6 +74,18 @@ namespace Grapefruit.WebApi
                     Description = "A front-background project build by ASP.NET Core 2.1 and Vue",
                     Title = "Grapefruit.VuCore",
                     Version = "v1"
+                });
+
+                //Show the api version in url address
+                s.DocInclusionPredicate((version, apiDescription) =>
+                {
+                    var values = apiDescription.RelativePath
+                        .Split('/')
+                        .Select(v => v.Replace("v{version}", version));
+
+                    apiDescription.RelativePath = string.Join("/", values);
+
+                    return true;
                 });
 
                 //Add comments description
@@ -91,6 +114,7 @@ namespace Grapefruit.WebApi
             app.UseCors(_defaultCorsPolicyName);
 
             app.UseHttpsRedirection();
+
             app.UseMvc();
 
             #region Enable Swagger

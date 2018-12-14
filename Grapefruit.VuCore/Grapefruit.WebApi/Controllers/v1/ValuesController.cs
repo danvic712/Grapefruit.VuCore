@@ -2,37 +2,39 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Grapefruit.WebApi.Controllers
+namespace Grapefruit.WebApi.Controllers.v1
 {
-    [Route("api/[controller]")]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     public class ValuesController : ControllerBase
     {
         /// <summary>
-        /// GET api/values
+        /// GET请求： api/values
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public IEnumerable<string> Get()
         {
             return new string[] { "value1", "value2" };
         }
 
         /// <summary>
-        /// GET api/values/5
+        /// GET请求： api/values/5
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        [HttpGet("{id}", Name = "Get")]
+        public string Get(int id)
         {
             return "value";
         }
 
         /// <summary>
-        /// POST api/values
+        /// POST请求： api/values
         /// </summary>
         /// <param name="value"></param>
         [HttpPost]
@@ -41,7 +43,7 @@ namespace Grapefruit.WebApi.Controllers
         }
 
         /// <summary>
-        /// PUT api/values/5
+        /// PUT请求： api/values/5
         /// </summary>
         /// <param name="id"></param>
         /// <param name="value"></param>
@@ -51,7 +53,7 @@ namespace Grapefruit.WebApi.Controllers
         }
 
         /// <summary>
-        /// DELETE api/values/5
+        /// DELETE请求： api/values/5
         /// </summary>
         /// <param name="id"></param>
         [HttpDelete("{id}")]
