@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -10,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace Grapefruit.WebApi
 {
@@ -26,6 +28,32 @@ namespace Grapefruit.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            #region Configure Swagger
+
+            services.AddSwaggerGen(s =>
+            {
+                s.SwaggerDoc("v1", new Info
+                {
+                    Contact = new Contact
+                    {
+                        Name = "Danvic Wang",
+                        Email = "danvic96@hotmail.com",
+                        Url = "https://yuiter.com"
+                    },
+                    Description = "A front-background project build by ASP.NET Core 2.1 and Vue",
+                    Title = "Grapefruit.VuCore",
+                    Version = "v1"
+                });
+
+                //Add comments description
+                //
+                var basePath = Path.GetDirectoryName(AppContext.BaseDirectory);//get application located directory
+                var xmlPath = Path.Combine(basePath, "Grapefruit.WebApi.xml");
+                s.IncludeXmlComments(xmlPath, true);
+            });
+
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,6 +70,16 @@ namespace Grapefruit.WebApi
 
             app.UseHttpsRedirection();
             app.UseMvc();
+
+            #region Enable Swagger
+
+            app.UseSwagger();
+            app.UseSwaggerUI(s =>
+            {
+                s.SwaggerEndpoint("/swagger/v1/swagger.json", "Grapefruit.VuCore API V1.0");
+            });
+
+            #endregion
         }
     }
 }
