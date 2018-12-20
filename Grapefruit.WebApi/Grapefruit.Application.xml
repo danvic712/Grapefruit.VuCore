@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Grapefruit.Application</name>
+    </assembly>
+    <members>
+        <member name="P:Grapefruit.Application.Authorization.Secret.Dto.SecretDto.Account">
+            <summary>
+            账号名
+            </summary>
+        </member>
+        <member name="P:Grapefruit.Application.Authorization.Secret.Dto.SecretDto.Password">
+            <summary>
+            密码
+            </summary>
+        </member>
+    </members>
+</doc>

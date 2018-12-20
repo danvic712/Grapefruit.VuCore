@@ -4,6 +4,12 @@
         <name>Grapefruit.WebApi</name>
     </assembly>
     <members>
+        <member name="M:Grapefruit.WebApi.Controllers.v1.SecretController.Post(Grapefruit.Application.Authorization.Secret.Dto.SecretDto)">
+            <summary>
+            获取 Jwt Token 数据
+            </summary>
+            <param name="dto">获取 Token 值数据传输对象</param>
+        </member>
         <member name="M:Grapefruit.WebApi.Controllers.v1.ValuesController.Get">
             <summary>
             GET请求： api/values

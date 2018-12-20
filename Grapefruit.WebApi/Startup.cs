@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -12,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace Grapefruit.WebApi
@@ -31,6 +34,25 @@ namespace Grapefruit.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            #region Configure Jwt Authentication
+
+            services.AddAuthentication(s =>
+            {
+                s.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                s.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(s =>
+            {
+                s.TokenValidationParameters = new TokenValidationParameters
+                {
+                    //NameClaimType = JwtClaimTypes.
+                    ValidIssuer = "yuiter.com",
+                    ValidAudience = "yuiter.com",
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:SecurityKey"]))
+                };
+            });
+
+            #endregion
+
             services.AddMvc(
                 options => options.Filters.Add(new CorsAuthorizationFilterFactory(_defaultCorsPolicyName))
             ).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
@@ -91,8 +113,24 @@ namespace Grapefruit.WebApi
                 //Add comments description
                 //
                 var basePath = Path.GetDirectoryName(AppContext.BaseDirectory);//get application located directory
-                var xmlPath = Path.Combine(basePath, "Grapefruit.WebApi.xml");
-                s.IncludeXmlComments(xmlPath, true);
+                var apiPath = Path.Combine(basePath, "Grapefruit.WebApi.xml");
+                var dtoPath = Path.Combine(basePath, "Grapefruit.Application.xml");
+                s.IncludeXmlComments(apiPath, true);
+                s.IncludeXmlComments(dtoPath, true);
+
+                //Add Jwt Authorize to http header
+                s.AddSecurityDefinition("Bearer", new ApiKeyScheme
+                {
+                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                    Name = "Authorization",//Jwt default param name
+                    In = "header",//Jwt store address
+                    Type = "apiKey"//Security scheme type
+                });
+                //Add authentication type
+                s.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>
+                {
+                    { "Bearer", new string[] { } }
+                });
             });
 
             #endregion
@@ -104,6 +142,7 @@ namespace Grapefruit.WebApi
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
             }
             else
             {
@@ -112,6 +151,9 @@ namespace Grapefruit.WebApi
 
             //Enable Cors
             app.UseCors(_defaultCorsPolicyName);
+
+            //Enable Authentication
+            app.UseAuthentication();
 
             app.UseHttpsRedirection();
 

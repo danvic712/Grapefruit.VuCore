@@ -4,4 +4,8 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>F:\Git\Grapefruit.VuCore\Grapefruit.WebApi\Grapefruit.Application.xml</DocumentationFile>
+  </PropertyGroup>
+
 </Project>
