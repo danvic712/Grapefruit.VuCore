@@ -98,7 +98,12 @@ namespace Grapefruit.WebApi
                     },
                     Description = "A front-background project build by ASP.NET Core 2.1 and Vue",
                     Title = "Grapefruit.VuCore",
-                    Version = "v1"
+                    Version = "v1",
+                    License = new License
+                    {
+                        Name = "MIT",
+                        Url = "https://mit-license.org/"
+                    }
                 });
 
                 //Show the api version in url address
