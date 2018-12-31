@@ -4,38 +4,6 @@
         <name>Grapefruit.WebApi</name>
     </assembly>
     <members>
-        <member name="M:Grapefruit.WebApi.Areas.v1.Controllers.ValuesController.Get">
-            <summary>
-            GET请求： api/values
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Grapefruit.WebApi.Areas.v1.Controllers.ValuesController.Get(System.Int32)">
-            <summary>
-            GET请求： api/values/5
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Grapefruit.WebApi.Areas.v1.Controllers.ValuesController.Post(System.String)">
-            <summary>
-            POST请求： api/values
-            </summary>
-            <param name="value"></param>
-        </member>
-        <member name="M:Grapefruit.WebApi.Areas.v1.Controllers.ValuesController.Put(System.Int32,System.String)">
-            <summary>
-            PUT请求： api/values/5
-            </summary>
-            <param name="id"></param>
-            <param name="value"></param>
-        </member>
-        <member name="M:Grapefruit.WebApi.Areas.v1.Controllers.ValuesController.Delete(System.Int32)">
-            <summary>
-            DELETE请求： api/values/5
-            </summary>
-            <param name="id"></param>
-        </member>
         <member name="M:Grapefruit.WebApi.Controllers.v1.SecretController.Post(Grapefruit.Application.Authorization.Secret.Dto.SecretDto)">
             <summary>
             获取 Jwt Token 数据
