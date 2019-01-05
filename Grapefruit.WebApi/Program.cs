@@ -16,6 +16,7 @@ namespace Grapefruit.WebApi
     {
         public static void Main(string[] args)
         {
+            //加载日志配置信息文件后去捕获所有的错误
             var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
             try
             {
@@ -37,9 +38,9 @@ namespace Grapefruit.WebApi
                 .UseStartup<Startup>()
                 .ConfigureLogging(logging =>
                 {
-                    logging.ClearProviders();
-                    logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
+                    logging.ClearProviders();//移除其它已经注册的日志处理程序
+                    logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);//记录最小日志级别
                 })
-                .UseNLog();
+                .UseNLog();//注入 NLog 服务
     }
 }
