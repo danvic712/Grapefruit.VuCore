@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Cors.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -80,6 +81,10 @@ namespace Grapefruit.WebApi
                 o.ReportApiVersions = true;//return versions in a response header
                 o.DefaultApiVersion = new ApiVersion(1, 0);//default version select 
                 o.AssumeDefaultVersionWhenUnspecified = true;//if not specifying an api version,show the default version
+            }).AddVersionedApiExplorer(option =>
+            {
+                option.GroupNameFormat = "'v'VVVV";//api group name
+                option.AssumeDefaultVersionWhenUnspecified = true;//whether provide a service API version
             });
 
             #endregion
@@ -88,23 +93,30 @@ namespace Grapefruit.WebApi
 
             services.AddSwaggerGen(s =>
             {
-                s.SwaggerDoc("v1", new Info
+                //Generate api description doc
+                //
+                var provider = services.BuildServiceProvider().GetRequiredService<IApiVersionDescriptionProvider>();
+
+                foreach (var description in provider.ApiVersionDescriptions)
                 {
-                    Contact = new Contact
+                    s.SwaggerDoc(description.GroupName, new Info
                     {
-                        Name = "Danvic Wang",
-                        Email = "danvic96@hotmail.com",
-                        Url = "https://yuiter.com"
-                    },
-                    Description = "A front-background project build by ASP.NET Core 2.1 and Vue",
-                    Title = "Grapefruit.VuCore",
-                    Version = "v1",
-                    License = new License
-                    {
-                        Name = "MIT",
-                        Url = "https://mit-license.org/"
-                    }
-                });
+                        Contact = new Contact
+                        {
+                            Name = "Danvic Wang",
+                            Email = "danvic96@hotmail.com",
+                            Url = "https://yuiter.com"
+                        },
+                        Description = "A front-background project build by ASP.NET Core 2.1 and Vue",
+                        Title = "Grapefruit.VuCore",
+                        Version = description.ApiVersion.ToString(),
+                        License = new License
+                        {
+                            Name = "MIT",
+                            Url = "https://mit-license.org/"
+                        }
+                    });
+                }
 
                 //Show the api version in url address
                 s.DocInclusionPredicate((version, apiDescription) =>
@@ -145,7 +157,7 @@ namespace Grapefruit.WebApi
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IApiVersionDescriptionProvider provider)
         {
             if (env.IsDevelopment())
             {
@@ -172,7 +184,11 @@ namespace Grapefruit.WebApi
             app.UseSwagger();
             app.UseSwaggerUI(s =>
             {
-                s.SwaggerEndpoint("/swagger/v1/swagger.json", "Grapefruit.VuCore API V1.0");
+                foreach (var description in provider.ApiVersionDescriptions)
+                {
+                    s.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json",
+                        $"Grapefruit.VuCore API {description.GroupName.ToUpperInvariant()}");
+                }
             });
 
             #endregion
