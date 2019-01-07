@@ -9,4 +9,8 @@
     <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\03_Domain\Grapefruit.Domain\Grapefruit.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

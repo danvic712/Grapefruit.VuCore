@@ -4,4 +4,9 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\01_Entity\Grapefruit.Entity\Grapefruit.Entity.csproj" />
+    <ProjectReference Include="..\..\02_Infrastructure\Grapefruit.Infrastructure\Grapefruit.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
