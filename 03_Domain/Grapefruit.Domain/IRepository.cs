@@ -25,7 +25,7 @@ namespace Grapefruit.Domain
     /// </summary>
     /// <typeparam name="TEntity">实体</typeparam>
     /// <typeparam name="TPrimaryKey">主键</typeparam>
-    public interface IRepository<TEntity, TPrimaryKey> : IRepository where TEntity : BaseEntity<TPrimaryKey>
+    public interface IRepository<TEntity, TPrimaryKey> : IRepository where TEntity : EntityBase<TPrimaryKey>
     {
         #region APIs
 
@@ -45,7 +45,7 @@ namespace Grapefruit.Domain
     /// Guid 主键泛型仓储接口
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
-    public interface IRepository<TEntity> : IRepository<TEntity, Guid> where TEntity : BaseEntity
+    public interface IRepository<TEntity> : IRepository<TEntity, Guid> where TEntity : EntityBase
     { }
 
     #endregion

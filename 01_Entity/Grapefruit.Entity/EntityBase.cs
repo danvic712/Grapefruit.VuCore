@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file= "BaseEntity.cs">
+// <copyright file= "EntityBase.cs">
 //     Copyright (c) Danvic712. All rights reserved.
 // </copyright>
 // Author: Danvic712
@@ -15,7 +15,7 @@ namespace Grapefruit.Entity
     /// 泛型实体基类
     /// </summary>
     /// <typeparam name="TPrimaryKey">主键</typeparam>
-    public abstract class BaseEntity<TPrimaryKey>
+    public abstract class EntityBase<TPrimaryKey>
     {
         #region Attributes
 
@@ -52,7 +52,7 @@ namespace Grapefruit.Entity
     /// <summary>
     /// Guid 类型主键实体基类
     /// </summary>
-    public abstract class BaseEntity : BaseEntity<Guid>
+    public abstract class EntityBase : EntityBase<Guid>
     { }
 
     #endregion
