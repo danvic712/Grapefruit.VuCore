@@ -19,7 +19,7 @@ namespace Grapefruit.Infrastructure.Dapper
         /// <summary>
         /// 关闭数据库连接
         /// </summary>
-        /// <param name="connection"></param>
+        /// <param name="connection">数据库连接</param>
         /// <returns></returns>
         bool CloseConnection(IDbConnection connection);
 
