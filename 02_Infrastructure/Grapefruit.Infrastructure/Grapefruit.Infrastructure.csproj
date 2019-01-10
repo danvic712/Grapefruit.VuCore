@@ -8,8 +8,16 @@
     <PackageReference Include="AutoMapper" Version="8.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Dapper" Version="1.50.5" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.1.1" />
     <PackageReference Include="MongoDB.Driver" Version="2.7.2" />
     <PackageReference Include="MongoDB.Driver.GridFS" Version="2.7.2" />
+    <PackageReference Include="MySql.Data" Version="8.0.13" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Redis\" />
   </ItemGroup>
 
 </Project>
