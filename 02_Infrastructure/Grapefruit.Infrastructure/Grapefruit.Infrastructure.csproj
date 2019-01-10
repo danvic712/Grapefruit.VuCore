@@ -16,8 +16,4 @@
     <PackageReference Include="MySql.Data" Version="8.0.13" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Redis\" />
-  </ItemGroup>
-
 </Project>
