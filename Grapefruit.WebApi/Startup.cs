@@ -46,10 +46,10 @@ namespace Grapefruit.WebApi
             {
                 s.TokenValidationParameters = new TokenValidationParameters
                 {
-                    //NameClaimType = JwtClaimTypes.
                     ValidIssuer = "yuiter.com",
                     ValidAudience = "yuiter.com",
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:SecurityKey"]))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:SecurityKey"])),
+                    ClockSkew = TimeSpan.FromSeconds(50)
                 };
             });
 

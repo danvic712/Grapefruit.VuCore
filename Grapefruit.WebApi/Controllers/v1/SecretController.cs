@@ -47,9 +47,9 @@ namespace Grapefruit.WebApi.Controllers.v1
         /// 获取 Jwt Token 数据
         /// </summary>
         /// <param name="dto">获取 Token 值数据传输对象</param>
-        [HttpPost]
+        [HttpPost("SignIn")]
         [AllowAnonymous]
-        public IActionResult Post([FromBody] SecretDto dto)
+        public IActionResult SignIn([FromBody] SecretDto dto)
         {
             //Todo：判断当前获取用户是否存在,不存在直接返回 401
             var user = new
@@ -65,7 +65,7 @@ namespace Grapefruit.WebApi.Controllers.v1
             SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:SecurityKey"]));
 
             DateTime authTime = DateTime.UtcNow;
-            DateTime expiresAt = authTime.AddMinutes(20);
+            DateTime expiresAt = authTime.AddSeconds(50);
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
@@ -95,6 +95,28 @@ namespace Grapefruit.WebApi.Controllers.v1
                     expires_at = new DateTimeOffset(expiresAt).ToUnixTimeSeconds()
                 }
             });
+        }
+
+        /// <summary>
+        /// 刷新 Jwt Token 数据
+        /// </summary>
+        /// <param name="token">Token 值</param>
+        /// <returns></returns>
+        [HttpPost("Refresh")]
+        public IActionResult RefreshAccessToken(string token)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// 取消刷新 Jwt Token 数据
+        /// </summary>
+        /// <param name="token">Token 值</param>
+        /// <returns></returns>
+        [HttpPost("Revoke")]
+        public IActionResult RevokeRefreshToken(string token)
+        {
+            return null;
         }
 
         #endregion
