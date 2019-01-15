@@ -15,6 +15,8 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Grapefruit.Application.Authorization.Secret.Dto;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -56,7 +58,7 @@ namespace Grapefruit.WebApi.Controllers.v1
             {
                 Id = Guid.NewGuid(),
                 Name = "yuiter",
-                Role = Guid.NewGuid(),
+                Role = Guid.Empty,
                 Email = "yuiter@yuiter.com",
                 Phone = "13912345678",
             };
@@ -67,16 +69,22 @@ namespace Grapefruit.WebApi.Controllers.v1
             DateTime authTime = DateTime.UtcNow;
             DateTime expiresAt = authTime.AddSeconds(50);
 
+            //将用户信息添加到 Claim 中
+            var identity = new ClaimsIdentity(JwtBearerDefaults.AuthenticationScheme);
+            identity.AddClaims(new Claim[] {
+                new Claim(ClaimTypes.Name,user.Name),
+                new Claim(ClaimTypes.Role,user.Role.ToString()),
+            });
+            HttpContext.SignInAsync(JwtBearerDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
+
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[] {
                     new Claim(ClaimTypes.Name,user.Name),
-                    new Claim(ClaimTypes.Role,user.Role.ToString()),
                     new Claim(ClaimTypes.Email,user.Email),
-                    new Claim(ClaimTypes.MobilePhone,user.Phone)
                 }),//创建声明信息
-                Issuer = "yuiter.com",//Jwt token 的签发者
-                Audience = "yuiter.com",//Jwt token 的接收者
+                Issuer = Configuration["Jwt:Issuer"],//Jwt token 的签发者
+                Audience = Configuration["Jwt:Audience"],//Jwt token 的接收者
                 Expires = expiresAt,//过期时间
                 SigningCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256)//创建 token
             };
@@ -90,7 +98,6 @@ namespace Grapefruit.WebApi.Controllers.v1
                 profile = new
                 {
                     name = user.Name,
-                    role = user.Role,
                     auth_time = new DateTimeOffset(authTime).ToUnixTimeSeconds(),
                     expires_at = new DateTimeOffset(expiresAt).ToUnixTimeSeconds()
                 }

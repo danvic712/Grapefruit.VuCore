@@ -56,5 +56,39 @@
             </summary>
             <param name="id"></param>
         </member>
+        <member name="T:Grapefruit.WebApi.Core.Policy.RoleHandler.Menu">
+            <summary>
+            测试类
+            </summary>
+        </member>
+        <member name="P:Grapefruit.WebApi.Core.Policy.RoleRequirement.Issuer">
+            <summary>
+            签发者
+            </summary>
+        </member>
+        <member name="P:Grapefruit.WebApi.Core.Policy.RoleRequirement.Audience">
+            <summary>
+            订阅者
+            </summary>
+        </member>
+        <member name="P:Grapefruit.WebApi.Core.Policy.RoleRequirement.Expiration">
+            <summary>
+            过期时间
+            </summary>
+        </member>
+        <member name="P:Grapefruit.WebApi.Core.Policy.RoleRequirement.Key">
+            <summary>
+            签名
+            </summary>
+        </member>
+        <member name="M:Grapefruit.WebApi.Core.Policy.RoleRequirement.#ctor(System.String,System.String,System.TimeSpan,Microsoft.IdentityModel.Tokens.SecurityKey)">
+            <summary>
+            有参构造函数
+            </summary>
+            <param name="issuer"></param>
+            <param name="audience"></param>
+            <param name="expiration"></param>
+            <param name="key"></param>
+        </member>
     </members>
 </doc>

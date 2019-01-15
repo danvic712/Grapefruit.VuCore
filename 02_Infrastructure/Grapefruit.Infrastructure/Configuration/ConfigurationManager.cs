@@ -5,7 +5,7 @@
 // Author: Danvic712
 // Created DateTime: 2019/1/10 10:23:35 
 // Modified by:
-// Description:获取配置信息 
+// Description: 获取配置信息 
 //-----------------------------------------------------------------------
 using Microsoft.Extensions.Configuration;
 using System;

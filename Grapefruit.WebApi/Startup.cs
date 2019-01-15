@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using Grapefruit.WebApi.Core.Policy;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -36,30 +39,63 @@ namespace Grapefruit.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            #region Dependency Injection Services
+
+            Assembly assembly = Assembly.Load("Grapefruit.Application");
+            foreach (var implement in assembly.GetTypes())
+            {
+                Type[] interfaceType = implement.GetInterfaces();
+                foreach (var service in interfaceType)
+                {
+                    services.AddTransient(service, implement);
+                }
+            }
+
+            #endregion
+
             #region Configure Jwt Authentication
 
-            services.AddAuthentication(s =>
+            //Use Jwt bearer authentication
+            //
+            string issuer = Configuration["Jwt:Issuer"];
+            string audience = Configuration["Jwt:Audience"];
+            TimeSpan expiration = TimeSpan.FromSeconds(50);
+            SecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:SecurityKey"]));
+
+            services.AddAuthorization(options =>
             {
+                //1、Definition authorization policy
+                options.AddPolicy("Permission",
+                   policy => policy.Requirements.Add(new RoleRequirement(/*issuer, audience, expiration, key*/)));
+            }).AddAuthentication(s =>
+            {
+                //2、Authentication
                 s.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 s.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(s =>
             {
+                //3、Use Jwt bearer 
                 s.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidIssuer = "yuiter.com",
-                    ValidAudience = "yuiter.com",
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:SecurityKey"])),
-                    ClockSkew = TimeSpan.FromSeconds(50)
+                    ValidIssuer = issuer,
+                    ValidAudience = audience,
+                    IssuerSigningKey = key,
+                    ClockSkew = expiration
                 };
             });
 
+            //DI handler process function
+            services.AddSingleton<IAuthorizationHandler, RoleHandler>();
+
             #endregion
+
+            #region MVC
 
             services.AddMvc(
                 options => options.Filters.Add(new CorsAuthorizationFilterFactory(_defaultCorsPolicyName))
             ).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            services.AddAutoMapper();
+            #endregion
 
             #region Configure Cors
 
@@ -152,6 +188,12 @@ namespace Grapefruit.WebApi
                     { "Bearer", new string[] { } }
                 });
             });
+
+            #endregion
+
+            #region Others
+
+            services.AddAutoMapper();
 
             #endregion
         }

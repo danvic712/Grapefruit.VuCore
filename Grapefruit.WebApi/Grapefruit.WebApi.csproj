@@ -32,10 +32,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Middlewares\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\02_Infrastructure\Grapefruit.Infrastructure\Grapefruit.Infrastructure.csproj" />
     <ProjectReference Include="..\04_Application\Grapefruit.Application\Grapefruit.Application.csproj" />
   </ItemGroup>
@@ -44,6 +40,10 @@
     <Content Update="nlog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Middlewares\" />
   </ItemGroup>
 
 </Project>
