@@ -24,6 +24,12 @@
             <param name="token">Token 值</param>
             <returns></returns>
         </member>
+        <member name="M:Grapefruit.WebApi.Controllers.v1.SecretController.Denied">
+            <summary>
+            禁止访问
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Grapefruit.WebApi.Controllers.v1.ValuesController.Get">
             <summary>
             GET请求： api/values
@@ -55,6 +61,17 @@
             DELETE请求： api/values/5
             </summary>
             <param name="id"></param>
+        </member>
+        <member name="P:Grapefruit.WebApi.Core.Policy.RoleHandler.Schemes">
+            <summary>
+            验证方案提供对象
+            </summary>
+        </member>
+        <member name="M:Grapefruit.WebApi.Core.Policy.RoleHandler.#ctor(Microsoft.AspNetCore.Authentication.IAuthenticationSchemeProvider)">
+            <summary>
+            构造
+            </summary>
+            <param name="schemes"></param>
         </member>
         <member name="T:Grapefruit.WebApi.Core.Policy.RoleHandler.Menu">
             <summary>

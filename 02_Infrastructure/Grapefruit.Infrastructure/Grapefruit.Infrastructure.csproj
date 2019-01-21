@@ -14,10 +14,7 @@
     <PackageReference Include="MongoDB.Driver" Version="2.7.2" />
     <PackageReference Include="MongoDB.Driver.GridFS" Version="2.7.2" />
     <PackageReference Include="MySql.Data" Version="8.0.13" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Cache\" />
+    <PackageReference Include="StackExchange.Redis" Version="2.0.519" />
   </ItemGroup>
 
 </Project>

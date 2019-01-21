@@ -71,18 +71,20 @@ namespace Grapefruit.WebApi.Controllers.v1
 
             //将用户信息添加到 Claim 中
             var identity = new ClaimsIdentity(JwtBearerDefaults.AuthenticationScheme);
-            identity.AddClaims(new Claim[] {
+
+            IEnumerable<Claim> claims = new Claim[] {
                 new Claim(ClaimTypes.Name,user.Name),
                 new Claim(ClaimTypes.Role,user.Role.ToString()),
-            });
+                new Claim(ClaimTypes.Email,user.Email),
+                new Claim(ClaimTypes.Expiration,expiresAt.ToString())
+            };
+
+            identity.AddClaims(claims);
             HttpContext.SignInAsync(JwtBearerDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new Claim[] {
-                    new Claim(ClaimTypes.Name,user.Name),
-                    new Claim(ClaimTypes.Email,user.Email),
-                }),//创建声明信息
+                Subject = new ClaimsIdentity(claims),//创建声明信息
                 Issuer = Configuration["Jwt:Issuer"],//Jwt token 的签发者
                 Audience = Configuration["Jwt:Audience"],//Jwt token 的接收者
                 Expires = expiresAt,//过期时间
@@ -124,6 +126,20 @@ namespace Grapefruit.WebApi.Controllers.v1
         public IActionResult RevokeRefreshToken(string token)
         {
             return null;
+        }
+
+        /// <summary>
+        /// 禁止访问
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult Denied()
+        {
+            return new JsonResult(new
+            {
+                msg = "denied access"
+            });
         }
 
         #endregion

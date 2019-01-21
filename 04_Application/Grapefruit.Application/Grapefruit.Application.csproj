@@ -13,4 +13,13 @@
     <ProjectReference Include="..\..\03_Domain\Grapefruit.Domain\Grapefruit.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Authorization\Jwt\Dto\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="2.1.2" />
+  </ItemGroup>
+
 </Project>

@@ -4,6 +4,80 @@
         <name>Grapefruit.Application</name>
     </assembly>
     <members>
+        <member name="M:Grapefruit.Application.Authorization.Jwt.IJwtAppService.IsCurrentActiveTokenAsync">
+            <summary>
+            判断当前 Token 是否有效
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Grapefruit.Application.Authorization.Jwt.IJwtAppService.DeactivateCurrentAsync">
+            <summary>
+            停用当前 Token
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Grapefruit.Application.Authorization.Jwt.IJwtAppService.IsActiveAsync(System.String)">
+            <summary>
+            判断 Token 是否有效
+            </summary>
+            <param name="token">Token</param>
+            <returns></returns>
+        </member>
+        <member name="M:Grapefruit.Application.Authorization.Jwt.IJwtAppService.DeactivateAsync(System.String)">
+            <summary>
+            停用 Token
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="F:Grapefruit.Application.Authorization.Jwt.JwtAppService._cache">
+            <summary>
+            分布式缓存
+            </summary>
+        </member>
+        <member name="F:Grapefruit.Application.Authorization.Jwt.JwtAppService._httpContextAccessor">
+            <summary>
+            获取 HTTP 请求上下文
+            </summary>
+        </member>
+        <member name="M:Grapefruit.Application.Authorization.Jwt.JwtAppService.#ctor(Microsoft.Extensions.Caching.Distributed.IDistributedCache,Microsoft.AspNetCore.Http.IHttpContextAccessor)">
+            <summary>
+            ctor
+            </summary>
+            <param name="cache"></param>
+            <param name="httpContextAccessor"></param>
+        </member>
+        <member name="M:Grapefruit.Application.Authorization.Jwt.JwtAppService.DeactivateCurrentAsync">
+            <summary>
+            停用当前 Token
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Grapefruit.Application.Authorization.Jwt.JwtAppService.IsActiveAsync(System.String)">
+            <summary>
+            判断 Token 是否有效
+            </summary>
+            <param name="token">Token</param>
+            <returns></returns>
+        </member>
+        <member name="M:Grapefruit.Application.Authorization.Jwt.JwtAppService.IsCurrentActiveTokenAsync">
+            <summary>
+            判断当前 Token 是否有效
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Grapefruit.Application.Authorization.Jwt.JwtAppService.GetKey(System.String)">
+            <summary>
+            从缓存中获取 Token 值
+            </summary>
+            <param name="token">Token</param>
+            <returns></returns>
+        </member>
+        <member name="M:Grapefruit.Application.Authorization.Jwt.JwtAppService.GetCurrentAsync">
+            <summary>
+            获取 HTTP 请求的 Token 值
+            </summary>
+            <returns></returns>
+        </member>
         <member name="P:Grapefruit.Application.Authorization.Secret.Dto.SecretDto.Account">
             <summary>
             账号名

@@ -1,26 +1,23 @@
-﻿using System;
+﻿using AutoMapper;
+using Grapefruit.WebApi.Core.Policy;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.AspNetCore.Mvc.Cors.Internal;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using Swashbuckle.AspNetCore.Swagger;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using AutoMapper;
-using Grapefruit.WebApi.Core.Policy;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.AspNetCore.Mvc.Cors.Internal;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using Swashbuckle.AspNetCore.Swagger;
 
 namespace Grapefruit.WebApi
 {
@@ -71,6 +68,7 @@ namespace Grapefruit.WebApi
             {
                 //2、Authentication
                 s.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                s.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
                 s.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(s =>
             {
@@ -81,6 +79,18 @@ namespace Grapefruit.WebApi
                     ValidAudience = audience,
                     IssuerSigningKey = key,
                     ClockSkew = expiration
+                };
+                s.Events = new JwtBearerEvents
+                {
+                    OnAuthenticationFailed = context =>
+                    {
+                        //Token expired
+                        if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+                        {
+                            context.Response.Headers.Add("Token-Expired", "true");
+                        }
+                        return Task.CompletedTask;
+                    }
                 };
             });
 
@@ -194,6 +204,11 @@ namespace Grapefruit.WebApi
             #region Others
 
             services.AddAutoMapper();
+
+            services.AddDistributedRedisCache(r =>
+            {
+                r.Configuration = Configuration["Redis:ConnectionString"];
+            });
 
             #endregion
         }
