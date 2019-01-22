@@ -7,13 +7,9 @@
 // Modified by:
 // Description: Jwt 授权
 //-----------------------------------------------------------------------
-using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
+using Grapefruit.Application.Authorization.Jwt;
+using Grapefruit.Application.Authorization.Jwt.Dto;
+using Grapefruit.Application.Authorization.Secret;
 using Grapefruit.Application.Authorization.Secret.Dto;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -21,7 +17,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Grapefruit.WebApi.Controllers.v1
 {
@@ -34,11 +37,22 @@ namespace Grapefruit.WebApi.Controllers.v1
 
         //Todo：依赖注入服务接口
         //
-        public IConfiguration Configuration { get; }
 
-        public SecretController(IConfiguration configuration)
+        private readonly IJwtAppService _jwtApp;
+
+        private readonly ILogger _logger;
+
+        private readonly ISecretAppService _secretApp;
+
+        public IConfiguration _configuration { get; }
+
+        public SecretController(ILogger<SecretController> logger, IConfiguration configuration,
+            IJwtAppService jwtApp, ISecretAppService secretApp)
         {
-            Configuration = configuration;
+            _configuration = configuration;
+            _jwtApp = jwtApp;
+            _secretApp = secretApp;
+            _logger = logger;
         }
 
         #endregion
@@ -46,64 +60,29 @@ namespace Grapefruit.WebApi.Controllers.v1
         #region APIs
 
         /// <summary>
-        /// 获取 Jwt Token 数据
+        /// 禁止访问
         /// </summary>
-        /// <param name="dto">获取 Token 值数据传输对象</param>
-        [HttpPost("SignIn")]
+        /// <returns></returns>
+        [HttpGet("denied")]
         [AllowAnonymous]
-        public IActionResult SignIn([FromBody] SecretDto dto)
+        public IActionResult Denied()
         {
-            //Todo：判断当前获取用户是否存在,不存在直接返回 401
-            var user = new
+            return new JsonResult(new
             {
-                Id = Guid.NewGuid(),
-                Name = "yuiter",
-                Role = Guid.Empty,
-                Email = "yuiter@yuiter.com",
-                Phone = "13912345678",
-            };
-
-            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
-            SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:SecurityKey"]));
-
-            DateTime authTime = DateTime.UtcNow;
-            DateTime expiresAt = authTime.AddSeconds(50);
-
-            //将用户信息添加到 Claim 中
-            var identity = new ClaimsIdentity(JwtBearerDefaults.AuthenticationScheme);
-
-            IEnumerable<Claim> claims = new Claim[] {
-                new Claim(ClaimTypes.Name,user.Name),
-                new Claim(ClaimTypes.Role,user.Role.ToString()),
-                new Claim(ClaimTypes.Email,user.Email),
-                new Claim(ClaimTypes.Expiration,expiresAt.ToString())
-            };
-
-            identity.AddClaims(claims);
-            HttpContext.SignInAsync(JwtBearerDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
-
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(claims),//创建声明信息
-                Issuer = Configuration["Jwt:Issuer"],//Jwt token 的签发者
-                Audience = Configuration["Jwt:Audience"],//Jwt token 的接收者
-                Expires = expiresAt,//过期时间
-                SigningCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256)//创建 token
-            };
-
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-
-            return Ok(new
-            {
-                access_token = tokenHandler.WriteToken(token),
-                token_type = "Bearer",
-                profile = new
-                {
-                    name = user.Name,
-                    auth_time = new DateTimeOffset(authTime).ToUnixTimeSeconds(),
-                    expires_at = new DateTimeOffset(expiresAt).ToUnixTimeSeconds()
-                }
+                msg = "denied access"
             });
+        }
+
+        /// <summary>
+        /// 停用 Token
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost("token/cancel")]
+        public async Task<IActionResult> CancelAccessToken()
+        {
+            await _jwtApp.DeactivateCurrentAsync();
+
+            return NoContent();
         }
 
         /// <summary>
@@ -111,7 +90,7 @@ namespace Grapefruit.WebApi.Controllers.v1
         /// </summary>
         /// <param name="token">Token 值</param>
         /// <returns></returns>
-        [HttpPost("Refresh")]
+        [HttpPost("token/refresh")]
         public IActionResult RefreshAccessToken(string token)
         {
             return null;
@@ -122,23 +101,70 @@ namespace Grapefruit.WebApi.Controllers.v1
         /// </summary>
         /// <param name="token">Token 值</param>
         /// <returns></returns>
-        [HttpPost("Revoke")]
+        [HttpPost("token/revoke")]
         public IActionResult RevokeRefreshToken(string token)
         {
-            return null;
+            //Todo：判断获取当前登录用户信息
+            var user = new UserDto
+            {
+                Id = Guid.NewGuid(),
+                UserName = "yuiter",
+                Role = Guid.Empty,
+                Email = "yuiter@yuiter.com",
+                Phone = "13912345678",
+            };
+
+            if (user == null)
+                return BadRequest();
+
+            var flag = _jwtApp.Refresh(token, user, out JsonWebTokenDto jwt, out string msg);
+
+            return Ok(new
+            {
+                access_token = flag ? jwt.Token : msg,
+                token_type = "Bearer",
+                profile = new
+                {
+                    name = user.UserName,
+                    auth_time = flag ? jwt.Auths : 0,
+                    expires_at = flag ? jwt.Expires : 0
+                }
+            });
         }
 
         /// <summary>
-        /// 禁止访问
+        /// 获取 Jwt Token 数据
         /// </summary>
-        /// <returns></returns>
-        [HttpGet]
+        /// <param name="dto">获取 Token 值数据传输对象</param>
+        [HttpPost("login")]
         [AllowAnonymous]
-        public IActionResult Denied()
+        public IActionResult Login([FromBody] SecretDto dto)
         {
-            return new JsonResult(new
+            //Todo：判断获取当前登录用户信息
+            var user = new UserDto
             {
-                msg = "denied access"
+                Id = Guid.NewGuid(),
+                UserName = "yuiter",
+                Role = Guid.Empty,
+                Email = "yuiter@yuiter.com",
+                Phone = "13912345678",
+            };
+
+            if (user == null)
+                return BadRequest();
+
+            var jwt = _jwtApp.Create(user);
+
+            return Ok(new
+            {
+                access_token = jwt.Token,
+                token_type = "Bearer",
+                profile = new
+                {
+                    name = user.UserName,
+                    auth_time = jwt.Auths,
+                    expires_at = jwt.Expires
+                }
             });
         }
 

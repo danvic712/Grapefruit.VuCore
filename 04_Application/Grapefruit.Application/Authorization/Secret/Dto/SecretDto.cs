@@ -5,11 +5,9 @@
 // Author: Danvic712
 // Created DateTime: 2018/12/19 15:42:20 
 // Modified by:
-// Description: 用户登录获取 Token 数据传输对象
+// Description: 用户登录实体
 //-----------------------------------------------------------------------
-using System;
-using System.Collections.Generic;
-using System.Text;
+
 
 namespace Grapefruit.Application.Authorization.Secret.Dto
 {
@@ -24,5 +22,6 @@ namespace Grapefruit.Application.Authorization.Secret.Dto
         /// 密码
         /// </summary>
         public string Password { get; set; }
+
     }
 }

@@ -17,7 +17,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace Grapefruit.WebApi.Core.Policy
+namespace Grapefruit.WebApi.Core
 {
     public class RoleHandler : AuthorizationHandler<RoleRequirement>
     {

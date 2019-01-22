@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using System;
 
-namespace Grapefruit.WebApi.Core.Policy
+namespace Grapefruit.WebApi.Core
 {
     public class RoleRequirement : IAuthorizationRequirement
     {

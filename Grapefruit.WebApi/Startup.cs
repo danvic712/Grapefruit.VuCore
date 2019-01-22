@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Grapefruit.WebApi.Core.Policy;
+using Grapefruit.WebApi.Core;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -56,7 +56,8 @@ namespace Grapefruit.WebApi
             //
             string issuer = Configuration["Jwt:Issuer"];
             string audience = Configuration["Jwt:Audience"];
-            TimeSpan expiration = TimeSpan.FromSeconds(50);
+            string expire = Configuration["Jwt:ExpireMinutes"];
+            TimeSpan expiration = TimeSpan.FromSeconds(Convert.ToDouble(expire));
             SecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:SecurityKey"]));
 
             services.AddAuthorization(options =>
@@ -100,6 +101,8 @@ namespace Grapefruit.WebApi
             #endregion
 
             #region MVC
+
+            services.AddRouting(options => options.LowercaseUrls = true);
 
             services.AddMvc(
                 options => options.Filters.Add(new CorsAuthorizationFilterFactory(_defaultCorsPolicyName))
@@ -238,7 +241,14 @@ namespace Grapefruit.WebApi
 
             #region Enable Swagger
 
-            app.UseSwagger();
+            app.UseSwagger(o =>
+            {
+                o.PreSerializeFilters.Add((document, request) =>
+                {
+                    document.Paths = document.Paths.ToDictionary(p => p.Key.ToLowerInvariant(), p => p.Value);
+                });
+            });
+
             app.UseSwaggerUI(s =>
             {
                 foreach (var description in provider.ApiVersionDescriptions)

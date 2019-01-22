@@ -4,6 +4,65 @@
         <name>Grapefruit.Application</name>
     </assembly>
     <members>
+        <member name="P:Grapefruit.Application.Authorization.Jwt.Dto.JsonWebTokenDto.Token">
+            <summary>
+            访问 Token
+            </summary>
+        </member>
+        <member name="P:Grapefruit.Application.Authorization.Jwt.Dto.JsonWebTokenDto.Refresh">
+            <summary>
+            刷新 Token
+            </summary>
+        </member>
+        <member name="P:Grapefruit.Application.Authorization.Jwt.Dto.JsonWebTokenDto.Auths">
+            <summary>
+            授权时间
+            </summary>
+        </member>
+        <member name="P:Grapefruit.Application.Authorization.Jwt.Dto.JsonWebTokenDto.Expires">
+            <summary>
+            过期时间
+            </summary>
+        </member>
+        <member name="P:Grapefruit.Application.Authorization.Jwt.Dto.RefreshTokenDto.Name">
+            <summary>
+            用户名
+            </summary>
+        </member>
+        <member name="P:Grapefruit.Application.Authorization.Jwt.Dto.RefreshTokenDto.Token">
+            <summary>
+            刷新后的 Token 信息
+            </summary>
+        </member>
+        <member name="P:Grapefruit.Application.Authorization.Jwt.Dto.RefreshTokenDto.Revoked">
+            <summary>
+            是否停用刷新后的 Token
+            </summary>
+        </member>
+        <member name="M:Grapefruit.Application.Authorization.Jwt.IJwtAppService.Create(Grapefruit.Application.Authorization.Secret.Dto.UserDto)">
+            <summary>
+            新增 Jwt token
+            </summary>
+            <param name="dto">用户信息数据传输对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:Grapefruit.Application.Authorization.Jwt.IJwtAppService.Refresh(System.String,Grapefruit.Application.Authorization.Secret.Dto.UserDto,Grapefruit.Application.Authorization.Jwt.Dto.JsonWebTokenDto@,System.String@)">
+            <summary>
+            刷新 Token
+            </summary>
+            <param name="token">Token</param>
+            <param name="dto">用户信息数据传输对象</param>
+            <param name="jwt">新的 Token 信息</param>
+            <param name="msg">错误信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Grapefruit.Application.Authorization.Jwt.IJwtAppService.Revoke(System.String,System.String@)">
+            <summary>
+            撤销刷新 Token
+            </summary>
+            <param name="token">Token</param>
+            <param name="msg">错误信息</param>
+        </member>
         <member name="M:Grapefruit.Application.Authorization.Jwt.IJwtAppService.IsCurrentActiveTokenAsync">
             <summary>
             判断当前 Token 是否有效
@@ -34,17 +93,48 @@
             分布式缓存
             </summary>
         </member>
+        <member name="F:Grapefruit.Application.Authorization.Jwt.JwtAppService._configuration">
+            <summary>
+            配置信息
+            </summary>
+        </member>
         <member name="F:Grapefruit.Application.Authorization.Jwt.JwtAppService._httpContextAccessor">
             <summary>
             获取 HTTP 请求上下文
             </summary>
         </member>
-        <member name="M:Grapefruit.Application.Authorization.Jwt.JwtAppService.#ctor(Microsoft.Extensions.Caching.Distributed.IDistributedCache,Microsoft.AspNetCore.Http.IHttpContextAccessor)">
+        <member name="F:Grapefruit.Application.Authorization.Jwt.JwtAppService._passwordHasher">
+            <summary>
+            hash
+            </summary>
+        </member>
+        <member name="F:Grapefruit.Application.Authorization.Jwt.JwtAppService._refreshTokens">
+            <summary>
+            刷新后的 Token 信息集合
+            </summary>
+        </member>
+        <member name="M:Grapefruit.Application.Authorization.Jwt.JwtAppService.#ctor(Microsoft.Extensions.Caching.Distributed.IDistributedCache,Microsoft.AspNetCore.Http.IHttpContextAccessor,Microsoft.Extensions.Configuration.IConfiguration,Microsoft.AspNetCore.Identity.IPasswordHasher{Grapefruit.Application.Authorization.Secret.Dto.UserDto})">
             <summary>
             ctor
             </summary>
             <param name="cache"></param>
             <param name="httpContextAccessor"></param>
+            <param name="configuration"></param>
+            <param name="passwordHasher"></param>
+        </member>
+        <member name="M:Grapefruit.Application.Authorization.Jwt.JwtAppService.Create(Grapefruit.Application.Authorization.Secret.Dto.UserDto)">
+            <summary>
+            新增 Token
+            </summary>
+            <param name="dto">用户信息数据传输对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:Grapefruit.Application.Authorization.Jwt.JwtAppService.DeactivateAsync(System.String)">
+            <summary>
+            停用 Token
+            </summary>
+            <param name="token">Token</param>
+            <returns></returns>
         </member>
         <member name="M:Grapefruit.Application.Authorization.Jwt.JwtAppService.DeactivateCurrentAsync">
             <summary>
@@ -65,9 +155,26 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Grapefruit.Application.Authorization.Jwt.JwtAppService.Refresh(System.String,Grapefruit.Application.Authorization.Secret.Dto.UserDto,Grapefruit.Application.Authorization.Jwt.Dto.JsonWebTokenDto@,System.String@)">
+            <summary>
+            刷新 Token
+            </summary>
+            <param name="token">Token</param>
+            <param name="dto"></param>
+            <param name="jwt"></param>
+            <param name="msg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Grapefruit.Application.Authorization.Jwt.JwtAppService.Revoke(System.String,System.String@)">
+            <summary>
+            撤销刷新 Token
+            </summary>
+            <param name="token">Token</param>
+            <param name="msg">错误信息</param>
+        </member>
         <member name="M:Grapefruit.Application.Authorization.Jwt.JwtAppService.GetKey(System.String)">
             <summary>
-            从缓存中获取 Token 值
+            缓存中过期 Token 值的 key
             </summary>
             <param name="token">Token</param>
             <returns></returns>
@@ -78,6 +185,13 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Grapefruit.Application.Authorization.Jwt.JwtAppService.GetRefreshToken(System.String)">
+            <summary>
+            获取刷新后的 Token 信息
+            </summary>
+            <param name="token">Token</param>
+            <returns></returns>
+        </member>
         <member name="P:Grapefruit.Application.Authorization.Secret.Dto.SecretDto.Account">
             <summary>
             账号名
@@ -86,6 +200,31 @@
         <member name="P:Grapefruit.Application.Authorization.Secret.Dto.SecretDto.Password">
             <summary>
             密码
+            </summary>
+        </member>
+        <member name="P:Grapefruit.Application.Authorization.Secret.Dto.UserDto.Id">
+            <summary>
+            主键
+            </summary>
+        </member>
+        <member name="P:Grapefruit.Application.Authorization.Secret.Dto.UserDto.UserName">
+            <summary>
+            用户名
+            </summary>
+        </member>
+        <member name="P:Grapefruit.Application.Authorization.Secret.Dto.UserDto.Email">
+            <summary>
+            电子邮箱
+            </summary>
+        </member>
+        <member name="P:Grapefruit.Application.Authorization.Secret.Dto.UserDto.Phone">
+            <summary>
+            手机号码
+            </summary>
+        </member>
+        <member name="P:Grapefruit.Application.Authorization.Secret.Dto.UserDto.Role">
+            <summary>
+            角色
             </summary>
         </member>
     </members>
