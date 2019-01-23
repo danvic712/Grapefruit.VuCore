@@ -8,9 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Grapefruit.WebApi.Controllers.v1
 {
-    [Authorize(Policy = "Permission")]
     [ApiController]
     [ApiVersion("1.0")]
+    [Authorize(Policy = "Permission")]
     [Route("api/v{version:apiVersion}/[controller]")]
     public class ValuesController : ControllerBase
     {

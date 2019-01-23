@@ -29,17 +29,8 @@ namespace Grapefruit.Application.Authorization.Jwt
         /// </summary>
         /// <param name="token">Token</param>
         /// <param name="dto">用户信息数据传输对象</param>
-        /// <param name="jwt">新的 Token 信息</param>
-        /// <param name="msg">错误信息</param>
         /// <returns></returns>
-        bool Refresh(string token, UserDto dto, out JsonWebTokenDto jwt, out string msg);
-
-        /// <summary>
-        /// 撤销刷新 Token
-        /// </summary>
-        /// <param name="token">Token</param>
-        /// <param name="msg">错误信息</param>
-        bool Revoke(string token, out string msg);
+        Task<JsonWebTokenDto> RefreshAsync(string token, UserDto dto);
 
         /// <summary>
         /// 判断当前 Token 是否有效

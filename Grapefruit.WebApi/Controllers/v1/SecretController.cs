@@ -8,35 +8,24 @@
 // Description: Jwt 授权
 //-----------------------------------------------------------------------
 using Grapefruit.Application.Authorization.Jwt;
-using Grapefruit.Application.Authorization.Jwt.Dto;
 using Grapefruit.Application.Authorization.Secret;
 using Grapefruit.Application.Authorization.Secret.Dto;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
 using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Grapefruit.WebApi.Controllers.v1
 {
     [ApiController]
     [ApiVersion("1.0")]
+    [Authorize(Policy = "Permission")]
     [Route("api/v{version:apiVersion}/[controller]")]
     public class SecretController : ControllerBase
     {
         #region Initialize
-
-        //Todo：依赖注入服务接口
-        //
 
         private readonly IJwtAppService _jwtApp;
 
@@ -60,20 +49,6 @@ namespace Grapefruit.WebApi.Controllers.v1
         #region APIs
 
         /// <summary>
-        /// 禁止访问
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet("denied")]
-        [AllowAnonymous]
-        public IActionResult Denied()
-        {
-            return new JsonResult(new
-            {
-                msg = "denied access"
-            });
-        }
-
-        /// <summary>
         /// 停用 Token
         /// </summary>
         /// <returns></returns>
@@ -81,28 +56,16 @@ namespace Grapefruit.WebApi.Controllers.v1
         public async Task<IActionResult> CancelAccessToken()
         {
             await _jwtApp.DeactivateCurrentAsync();
-
-            return NoContent();
+            return Ok();
         }
 
         /// <summary>
         /// 刷新 Jwt Token 数据
         /// </summary>
-        /// <param name="token">Token 值</param>
+        /// <param name="refreshToken">刷新 Token 值</param>
         /// <returns></returns>
         [HttpPost("token/refresh")]
-        public IActionResult RefreshAccessToken(string token)
-        {
-            return null;
-        }
-
-        /// <summary>
-        /// 取消刷新 Jwt Token 数据
-        /// </summary>
-        /// <param name="token">Token 值</param>
-        /// <returns></returns>
-        [HttpPost("token/revoke")]
-        public IActionResult RevokeRefreshToken(string token)
+        public async Task<IActionResult> RefreshAccessTokenAsync(string refreshToken)
         {
             //Todo：判断获取当前登录用户信息
             var user = new UserDto
@@ -117,11 +80,14 @@ namespace Grapefruit.WebApi.Controllers.v1
             if (user == null)
                 return BadRequest();
 
-            var flag = _jwtApp.Refresh(token, user, out JsonWebTokenDto jwt, out string msg);
+            var jwt = await _jwtApp.RefreshAsync(refreshToken, user);
+
+            bool flag = string.IsNullOrEmpty(jwt.Refresh);
 
             return Ok(new
             {
-                access_token = flag ? jwt.Token : msg,
+                access_token = jwt.Token,
+                refresh_token = flag ? jwt.Refresh : jwt.Token,
                 token_type = "Bearer",
                 profile = new
                 {
@@ -158,6 +124,7 @@ namespace Grapefruit.WebApi.Controllers.v1
             return Ok(new
             {
                 access_token = jwt.Token,
+                refresh_token = jwt.Refresh,
                 token_type = "Bearer",
                 profile = new
                 {

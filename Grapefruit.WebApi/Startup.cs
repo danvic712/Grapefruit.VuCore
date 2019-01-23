@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using Grapefruit.Application.Authorization.Secret.Dto;
 using Grapefruit.WebApi.Core;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Cors.Internal;
@@ -57,7 +59,7 @@ namespace Grapefruit.WebApi
             string issuer = Configuration["Jwt:Issuer"];
             string audience = Configuration["Jwt:Audience"];
             string expire = Configuration["Jwt:ExpireMinutes"];
-            TimeSpan expiration = TimeSpan.FromSeconds(Convert.ToDouble(expire));
+            TimeSpan expiration = TimeSpan.FromMinutes(Convert.ToDouble(expire));
             SecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:SecurityKey"]));
 
             services.AddAuthorization(options =>
@@ -79,24 +81,26 @@ namespace Grapefruit.WebApi
                     ValidIssuer = issuer,
                     ValidAudience = audience,
                     IssuerSigningKey = key,
-                    ClockSkew = expiration
+                    ClockSkew = expiration,
+                    ValidateLifetime = true
                 };
-                s.Events = new JwtBearerEvents
-                {
-                    OnAuthenticationFailed = context =>
-                    {
-                        //Token expired
-                        if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
-                        {
-                            context.Response.Headers.Add("Token-Expired", "true");
-                        }
-                        return Task.CompletedTask;
-                    }
-                };
+                //s.Events = new JwtBearerEvents
+                //{
+                //    OnAuthenticationFailed = context =>
+                //    {
+                //        //Token expired
+                //        if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+                //        {
+                //            context.Response.Headers.Add("Token-Expired", "true");
+                //        }
+                //        return Task.CompletedTask;
+                //    }
+                //};
             });
 
             //DI handler process function
             services.AddSingleton<IAuthorizationHandler, RoleHandler>();
+            services.AddSingleton<IPasswordHasher<UserDto>, PasswordHasher<UserDto>>();
 
             #endregion
 

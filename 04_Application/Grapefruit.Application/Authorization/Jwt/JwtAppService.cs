@@ -54,7 +54,7 @@ namespace Grapefruit.Application.Authorization.Jwt
         /// <summary>
         /// 刷新后的 Token 信息集合
         /// </summary>
-        private readonly ISet<RefreshTokenDto> _refreshTokens = new HashSet<RefreshTokenDto>();
+        private static readonly ISet<RefreshTokenDto> _refreshTokens = new HashSet<RefreshTokenDto>();
 
         /// <summary>
         /// ctor
@@ -87,7 +87,7 @@ namespace Grapefruit.Application.Authorization.Jwt
             SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:SecurityKey"]));
 
             DateTime authTime = DateTime.UtcNow;
-            DateTime expiresAt = authTime.AddSeconds(Convert.ToDouble(_configuration["Jwt:ExpireMinutes"]));
+            DateTime expiresAt = authTime.AddMinutes(Convert.ToDouble(_configuration["Jwt:ExpireMinutes"]));
 
             //将用户信息添加到 Claim 中
             var identity = new ClaimsIdentity(JwtBearerDefaults.AuthenticationScheme);
@@ -143,7 +143,7 @@ namespace Grapefruit.Application.Authorization.Jwt
                 " ", new DistributedCacheEntryOptions
                 {
                     AbsoluteExpirationRelativeToNow =
-                        TimeSpan.FromSeconds(Convert.ToDouble(_configuration["Jwt:ExpireMinutes"]))
+                        TimeSpan.FromMinutes(Convert.ToDouble(_configuration["Jwt:ExpireMinutes"]))
                 });
 
         /// <summary>
@@ -173,54 +173,32 @@ namespace Grapefruit.Application.Authorization.Jwt
         /// </summary>
         /// <param name="token">Token</param>
         /// <param name="dto"></param>
-        /// <param name="jwt"></param>
-        /// <param name="msg"></param>
         /// <returns></returns>
-        public bool Refresh(string token, UserDto dto, out JsonWebTokenDto jwt, out string msg)
+        public async Task<JsonWebTokenDto> RefreshAsync(string token, UserDto dto)
         {
             var refreshToken = GetRefreshToken(token);
             if (refreshToken == null)
             {
-                msg = "未获取到刷新后的 Token 信息";
-                jwt = null;
-                return false;
+                return new JsonWebTokenDto()
+                {
+                    Token = "未获取到刷新后的 Token"
+                };
             }
 
             if (refreshToken.Revoked)
             {
-                msg = "刷新后的 Token 信息已被停用";
-                jwt = null;
-                return false;
+                return new JsonWebTokenDto()
+                {
+                    Token = "刷新后的 Token 已被停用"
+                };
             }
 
-            msg = "";
-            jwt = Create(dto);
-            return true;
-        }
+            var jwt = Create(dto);
 
-        /// <summary>
-        /// 撤销刷新 Token
-        /// </summary>
-        /// <param name="token">Token</param>
-        /// <param name="msg">错误信息</param>
-        public bool Revoke(string token, out string msg)
-        {
-            var refreshToken = GetRefreshToken(token);
-            if (refreshToken == null)
-            {
-                msg = "未获取到刷新后的 Token 信息";
-                return false;
-            }
+            //停用修改前的 Token 信息
+            await DeactivateCurrentAsync();
 
-            if (refreshToken.Revoked)
-            {
-                msg = "刷新后的 Token 信息已被停用";
-                return false;
-            }
-
-            refreshToken.Revoked = true;
-            msg = "";
-            return true;
+            return jwt;
         }
 
         #endregion

@@ -4,30 +4,17 @@
         <name>Grapefruit.WebApi</name>
     </assembly>
     <members>
-        <member name="M:Grapefruit.WebApi.Controllers.v1.SecretController.Denied">
-            <summary>
-            禁止访问
-            </summary>
-            <returns></returns>
-        </member>
         <member name="M:Grapefruit.WebApi.Controllers.v1.SecretController.CancelAccessToken">
             <summary>
             停用 Token
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Grapefruit.WebApi.Controllers.v1.SecretController.RefreshAccessToken(System.String)">
+        <member name="M:Grapefruit.WebApi.Controllers.v1.SecretController.RefreshAccessTokenAsync(System.String)">
             <summary>
             刷新 Jwt Token 数据
             </summary>
-            <param name="token">Token 值</param>
-            <returns></returns>
-        </member>
-        <member name="M:Grapefruit.WebApi.Controllers.v1.SecretController.RevokeRefreshToken(System.String)">
-            <summary>
-            取消刷新 Jwt Token 数据
-            </summary>
-            <param name="token">Token 值</param>
+            <param name="refreshToken">刷新 Token 值</param>
             <returns></returns>
         </member>
         <member name="M:Grapefruit.WebApi.Controllers.v1.SecretController.Login(Grapefruit.Application.Authorization.Secret.Dto.SecretDto)">
@@ -73,11 +60,17 @@
             验证方案提供对象
             </summary>
         </member>
-        <member name="M:Grapefruit.WebApi.Core.RoleHandler.#ctor(Microsoft.AspNetCore.Authentication.IAuthenticationSchemeProvider)">
+        <member name="F:Grapefruit.WebApi.Core.RoleHandler._jwtApp">
             <summary>
-            构造
+            
+            </summary>
+        </member>
+        <member name="M:Grapefruit.WebApi.Core.RoleHandler.#ctor(Microsoft.AspNetCore.Authentication.IAuthenticationSchemeProvider,Grapefruit.Application.Authorization.Jwt.IJwtAppService)">
+            <summary>
+            ctor
             </summary>
             <param name="schemes"></param>
+            <param name="jwtApp"></param>
         </member>
         <member name="T:Grapefruit.WebApi.Core.RoleHandler.Menu">
             <summary>

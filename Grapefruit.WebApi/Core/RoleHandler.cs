@@ -7,6 +7,7 @@
 // Modified by:
 // Description: 角色策略授权处理
 //-----------------------------------------------------------------------
+using Grapefruit.Application.Authorization.Jwt;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -27,23 +28,42 @@ namespace Grapefruit.WebApi.Core
         public IAuthenticationSchemeProvider Schemes { get; set; }
 
         /// <summary>
-        /// 构造
+        /// 
+        /// </summary>
+        private readonly IJwtAppService _jwtApp;
+
+        /// <summary>
+        /// ctor
         /// </summary>
         /// <param name="schemes"></param>
-        public RoleHandler(IAuthenticationSchemeProvider schemes)
+        /// <param name="jwtApp"></param>
+        public RoleHandler(IAuthenticationSchemeProvider schemes, IJwtAppService jwtApp)
         {
             Schemes = schemes;
+            _jwtApp = jwtApp;
         }
 
         //授权处理
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, RoleRequirement requirement)
         {
             //1、Todo：获取角色、Url 对应关系
-            List<Menu> list = new List<Menu> { new Menu
-            {
-                Role = Guid.Empty.ToString(),
-                Url = "/api/v1.0/Values"
-            } };
+            List<Menu> list = new List<Menu> {
+                new Menu
+                {
+                    Role = Guid.Empty.ToString(),
+                    Url = "/api/v1.0/Values"
+                },
+                new Menu
+                {
+                    Role=Guid.Empty.ToString(),
+                    Url="/api/v1.0/secret/token/cancel"
+                },
+                new Menu
+                {
+                    Role=Guid.Empty.ToString(),
+                    Url="/api/v1.0/secret/token/refresh"
+                }
+            };
 
             //验证用户角色是否拥有请求地址权限
             var httpContext = (context.Resource as AuthorizationFilterContext).HttpContext;
@@ -67,6 +87,13 @@ namespace Grapefruit.WebApi.Core
                 var result = await httpContext.AuthenticateAsync(defaultAuthenticate.Name);
                 if (result.Succeeded)
                 {
+                    //判断是否为过期 Token 信息
+                    if (!await _jwtApp.IsCurrentActiveTokenAsync())
+                    {
+                        context.Fail();
+                        return;
+                    }
+
                     httpContext.User = result.Principal;
                     //判断角色与 Url 是否对应
                     //
@@ -76,6 +103,7 @@ namespace Grapefruit.WebApi.Core
                     if (menu == null)
                     {
                         context.Fail();
+                        return;
                     }
 
                     //判断过期时间
