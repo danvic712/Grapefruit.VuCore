@@ -18,7 +18,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace Grapefruit.WebApi.Core
+namespace Grapefruit.WebApi.Handlers
 {
     public class RoleHandler : AuthorizationHandler<RoleRequirement>
     {
@@ -56,12 +56,12 @@ namespace Grapefruit.WebApi.Core
                 new Menu
                 {
                     Role=Guid.Empty.ToString(),
-                    Url="/api/v1.0/secret/token/cancel"
+                    Url="/api/v1.0/secret/deactivate"
                 },
                 new Menu
                 {
                     Role=Guid.Empty.ToString(),
-                    Url="/api/v1.0/secret/token/refresh"
+                    Url="/api/v1.0/secret/refresh"
                 }
             };
 

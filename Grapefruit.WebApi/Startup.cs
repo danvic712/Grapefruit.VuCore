@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Grapefruit.Application.Authorization.Secret.Dto;
-using Grapefruit.WebApi.Core;
+using Grapefruit.WebApi.Handlers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -19,7 +19,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Grapefruit.WebApi
 {
@@ -100,7 +99,6 @@ namespace Grapefruit.WebApi
 
             //DI handler process function
             services.AddSingleton<IAuthorizationHandler, RoleHandler>();
-            services.AddSingleton<IPasswordHasher<UserDto>, PasswordHasher<UserDto>>();
 
             #endregion
 

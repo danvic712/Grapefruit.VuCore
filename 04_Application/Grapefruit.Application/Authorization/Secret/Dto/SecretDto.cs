@@ -23,5 +23,10 @@ namespace Grapefruit.Application.Authorization.Secret.Dto
         /// </summary>
         public string Password { get; set; }
 
+        /// <summary>
+        /// 登录后授权的 Token
+        /// </summary>
+        public string Token { get; set; }
+
     }
 }

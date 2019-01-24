@@ -12,7 +12,6 @@ using Grapefruit.Application.Authorization.Secret.Dto;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Primitives;
@@ -32,6 +31,11 @@ namespace Grapefruit.Application.Authorization.Jwt
         #region Initialize
 
         /// <summary>
+        /// 已授权的 Token 信息集合
+        /// </summary>
+        private static readonly ISet<JwtAuthorizationDto> _tokens = new HashSet<JwtAuthorizationDto>();
+
+        /// <summary>
         /// 分布式缓存
         /// </summary>
         private readonly IDistributedCache _cache;
@@ -47,29 +51,16 @@ namespace Grapefruit.Application.Authorization.Jwt
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         /// <summary>
-        /// hash
-        /// </summary>
-        private readonly IPasswordHasher<UserDto> _passwordHasher;
-
-        /// <summary>
-        /// 刷新后的 Token 信息集合
-        /// </summary>
-        private static readonly ISet<RefreshTokenDto> _refreshTokens = new HashSet<RefreshTokenDto>();
-
-        /// <summary>
         /// ctor
         /// </summary>
         /// <param name="cache"></param>
         /// <param name="httpContextAccessor"></param>
         /// <param name="configuration"></param>
-        /// <param name="passwordHasher"></param>
-        public JwtAppService(IDistributedCache cache, IHttpContextAccessor httpContextAccessor,
-            IConfiguration configuration, IPasswordHasher<UserDto> passwordHasher)
+        public JwtAppService(IDistributedCache cache, IHttpContextAccessor httpContextAccessor, IConfiguration configuration)
         {
             _cache = cache;
             _httpContextAccessor = httpContextAccessor;
             _configuration = configuration;
-            _passwordHasher = passwordHasher;
         }
 
         #endregion
@@ -81,7 +72,7 @@ namespace Grapefruit.Application.Authorization.Jwt
         /// </summary>
         /// <param name="dto">用户信息数据传输对象</param>
         /// <returns></returns>
-        public JsonWebTokenDto Create(UserDto dto)
+        public JwtAuthorizationDto Create(UserDto dto)
         {
             JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
             SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:SecurityKey"]));
@@ -112,25 +103,20 @@ namespace Grapefruit.Application.Authorization.Jwt
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            var refresh = _passwordHasher.HashPassword(dto, Guid.NewGuid().ToString())
-                .Replace("+", string.Empty)
-                .Replace("=", string.Empty)
-                .Replace("/", string.Empty);
 
             //存储刷新后的 Token 信息
-            _refreshTokens.Add(new RefreshTokenDto
+            var jwt = new JwtAuthorizationDto
             {
-                Name = dto.UserName,
-                Token = refresh
-            });
-
-            return new JsonWebTokenDto
-            {
+                UserId = dto.Id,
                 Token = tokenHandler.WriteToken(token),
-                Refresh = refresh,
                 Auths = new DateTimeOffset(authTime).ToUnixTimeSeconds(),
-                Expires = new DateTimeOffset(expiresAt).ToUnixTimeSeconds()
+                Expires = new DateTimeOffset(expiresAt).ToUnixTimeSeconds(),
+                Success = true
             };
+
+            _tokens.Add(jwt);
+
+            return jwt;
         }
 
         /// <summary>
@@ -172,24 +158,17 @@ namespace Grapefruit.Application.Authorization.Jwt
         /// 刷新 Token
         /// </summary>
         /// <param name="token">Token</param>
-        /// <param name="dto"></param>
+        /// <param name="dto">用户信息</param>
         /// <returns></returns>
-        public async Task<JsonWebTokenDto> RefreshAsync(string token, UserDto dto)
+        public async Task<JwtAuthorizationDto> RefreshAsync(string token, UserDto dto)
         {
-            var refreshToken = GetRefreshToken(token);
-            if (refreshToken == null)
+            var jwtOld = GetExistenceToken(token);
+            if (jwtOld == null)
             {
-                return new JsonWebTokenDto()
+                return new JwtAuthorizationDto()
                 {
-                    Token = "未获取到刷新后的 Token"
-                };
-            }
-
-            if (refreshToken.Revoked)
-            {
-                return new JsonWebTokenDto()
-                {
-                    Token = "刷新后的 Token 已被停用"
+                    Token = "未获取到当前 Token 信息",
+                    Success = false
                 };
             }
 
@@ -206,7 +185,7 @@ namespace Grapefruit.Application.Authorization.Jwt
         #region Method
 
         /// <summary>
-        /// 缓存中过期 Token 值的 key
+        /// 设置缓存中过期 Token 值的 key
         /// </summary>
         /// <param name="token">Token</param>
         /// <returns></returns>
@@ -223,19 +202,19 @@ namespace Grapefruit.Application.Authorization.Jwt
             var authorizationHeader = _httpContextAccessor
                 .HttpContext.Request.Headers["authorization"];
 
-            //authorization
+            //token
             return authorizationHeader == StringValues.Empty
                 ? string.Empty
                 : authorizationHeader.Single().Split(" ").Last();// bearer tokenvalue
         }
 
         /// <summary>
-        /// 获取刷新后的 Token 信息
+        /// 判断是否存在当前 Token
         /// </summary>
         /// <param name="token">Token</param>
         /// <returns></returns>
-        private RefreshTokenDto GetRefreshToken(string token)
-            => _refreshTokens.SingleOrDefault(x => x.Token == token);
+        private JwtAuthorizationDto GetExistenceToken(string token)
+            => _tokens.SingleOrDefault(x => x.Token == token);
 
         #endregion
     }

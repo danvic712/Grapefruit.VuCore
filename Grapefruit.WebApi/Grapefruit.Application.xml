@@ -4,39 +4,64 @@
         <name>Grapefruit.Application</name>
     </assembly>
     <members>
-        <member name="P:Grapefruit.Application.Authorization.Jwt.Dto.JsonWebTokenDto.Token">
-            <summary>
-            访问 Token
-            </summary>
-        </member>
-        <member name="P:Grapefruit.Application.Authorization.Jwt.Dto.JsonWebTokenDto.Refresh">
-            <summary>
-            刷新 Token
-            </summary>
-        </member>
-        <member name="P:Grapefruit.Application.Authorization.Jwt.Dto.JsonWebTokenDto.Auths">
+        <member name="P:Grapefruit.Application.Authorization.Jwt.Dto.JwtAuthorizationDto.Auths">
             <summary>
             授权时间
             </summary>
         </member>
-        <member name="P:Grapefruit.Application.Authorization.Jwt.Dto.JsonWebTokenDto.Expires">
+        <member name="P:Grapefruit.Application.Authorization.Jwt.Dto.JwtAuthorizationDto.Expires">
             <summary>
             过期时间
             </summary>
         </member>
-        <member name="P:Grapefruit.Application.Authorization.Jwt.Dto.RefreshTokenDto.Name">
+        <member name="P:Grapefruit.Application.Authorization.Jwt.Dto.JwtAuthorizationDto.Success">
             <summary>
-            用户名
+            是否授权成功
             </summary>
         </member>
-        <member name="P:Grapefruit.Application.Authorization.Jwt.Dto.RefreshTokenDto.Token">
+        <member name="P:Grapefruit.Application.Authorization.Jwt.Dto.JwtAuthorizationDto.Token">
             <summary>
-            刷新后的 Token 信息
+            Token
             </summary>
         </member>
-        <member name="P:Grapefruit.Application.Authorization.Jwt.Dto.RefreshTokenDto.Revoked">
+        <member name="P:Grapefruit.Application.Authorization.Jwt.Dto.JwtAuthorizationDto.UserId">
             <summary>
-            是否停用刷新后的 Token
+            用户主键
+            </summary>
+        </member>
+        <member name="P:Grapefruit.Application.Authorization.Jwt.Dto.JwtResponseDto.Access">
+            <summary>
+            访问 Token 值
+            </summary>
+        </member>
+        <member name="P:Grapefruit.Application.Authorization.Jwt.Dto.JwtResponseDto.Type">
+            <summary>
+            授权类型
+            </summary>
+        </member>
+        <member name="P:Grapefruit.Application.Authorization.Jwt.Dto.JwtResponseDto.Profile">
+            <summary>
+            个人信息
+            </summary>
+        </member>
+        <member name="T:Grapefruit.Application.Authorization.Jwt.Dto.Profile">
+            <summary>
+            个人信息
+            </summary>
+        </member>
+        <member name="P:Grapefruit.Application.Authorization.Jwt.Dto.Profile.Name">
+            <summary>
+            姓名
+            </summary>
+        </member>
+        <member name="P:Grapefruit.Application.Authorization.Jwt.Dto.Profile.Auths">
+            <summary>
+            授权时间戳
+            </summary>
+        </member>
+        <member name="P:Grapefruit.Application.Authorization.Jwt.Dto.Profile.Expires">
+            <summary>
+            过期时间戳
             </summary>
         </member>
         <member name="M:Grapefruit.Application.Authorization.Jwt.IJwtAppService.Create(Grapefruit.Application.Authorization.Secret.Dto.UserDto)">
@@ -94,24 +119,18 @@
             获取 HTTP 请求上下文
             </summary>
         </member>
-        <member name="F:Grapefruit.Application.Authorization.Jwt.JwtAppService._passwordHasher">
+        <member name="F:Grapefruit.Application.Authorization.Jwt.JwtAppService._tokens">
             <summary>
-            hash
+            已授权的 Token 信息集合
             </summary>
         </member>
-        <member name="F:Grapefruit.Application.Authorization.Jwt.JwtAppService._refreshTokens">
-            <summary>
-            刷新后的 Token 信息集合
-            </summary>
-        </member>
-        <member name="M:Grapefruit.Application.Authorization.Jwt.JwtAppService.#ctor(Microsoft.Extensions.Caching.Distributed.IDistributedCache,Microsoft.AspNetCore.Http.IHttpContextAccessor,Microsoft.Extensions.Configuration.IConfiguration,Microsoft.AspNetCore.Identity.IPasswordHasher{Grapefruit.Application.Authorization.Secret.Dto.UserDto})">
+        <member name="M:Grapefruit.Application.Authorization.Jwt.JwtAppService.#ctor(Microsoft.Extensions.Caching.Distributed.IDistributedCache,Microsoft.AspNetCore.Http.IHttpContextAccessor,Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
             ctor
             </summary>
             <param name="cache"></param>
             <param name="httpContextAccessor"></param>
             <param name="configuration"></param>
-            <param name="passwordHasher"></param>
         </member>
         <member name="M:Grapefruit.Application.Authorization.Jwt.JwtAppService.Create(Grapefruit.Application.Authorization.Secret.Dto.UserDto)">
             <summary>
@@ -151,12 +170,12 @@
             刷新 Token
             </summary>
             <param name="token">Token</param>
-            <param name="dto"></param>
+            <param name="dto">用户信息</param>
             <returns></returns>
         </member>
         <member name="M:Grapefruit.Application.Authorization.Jwt.JwtAppService.GetKey(System.String)">
             <summary>
-            缓存中过期 Token 值的 key
+            设置缓存中过期 Token 值的 key
             </summary>
             <param name="token">Token</param>
             <returns></returns>
@@ -167,9 +186,9 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Grapefruit.Application.Authorization.Jwt.JwtAppService.GetRefreshToken(System.String)">
+        <member name="M:Grapefruit.Application.Authorization.Jwt.JwtAppService.GetExistenceToken(System.String)">
             <summary>
-            获取刷新后的 Token 信息
+            判断是否存在当前 Token
             </summary>
             <param name="token">Token</param>
             <returns></returns>
@@ -182,6 +201,11 @@
         <member name="P:Grapefruit.Application.Authorization.Secret.Dto.SecretDto.Password">
             <summary>
             密码
+            </summary>
+        </member>
+        <member name="P:Grapefruit.Application.Authorization.Secret.Dto.SecretDto.Token">
+            <summary>
+            登录后授权的 Token
             </summary>
         </member>
         <member name="P:Grapefruit.Application.Authorization.Secret.Dto.UserDto.Id">

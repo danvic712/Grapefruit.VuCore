@@ -4,24 +4,53 @@
         <name>Grapefruit.WebApi</name>
     </assembly>
     <members>
+        <member name="F:Grapefruit.WebApi.Controllers.v1.SecretController._jwtApp">
+            <summary>
+            Jwt 服务
+            </summary>
+        </member>
+        <member name="F:Grapefruit.WebApi.Controllers.v1.SecretController._logger">
+            <summary>
+            日志记录服务
+            </summary>
+        </member>
+        <member name="F:Grapefruit.WebApi.Controllers.v1.SecretController._secretApp">
+            <summary>
+            用户服务
+            </summary>
+        </member>
+        <member name="P:Grapefruit.WebApi.Controllers.v1.SecretController._configuration">
+            <summary>
+            配置信息
+            </summary>
+        </member>
+        <member name="M:Grapefruit.WebApi.Controllers.v1.SecretController.#ctor(Microsoft.Extensions.Logging.ILogger{Grapefruit.WebApi.Controllers.v1.SecretController},Microsoft.Extensions.Configuration.IConfiguration,Grapefruit.Application.Authorization.Jwt.IJwtAppService,Grapefruit.Application.Authorization.Secret.ISecretAppService)">
+            <summary>
+            Ctor
+            </summary>
+            <param name="logger"></param>
+            <param name="configuration"></param>
+            <param name="jwtApp"></param>
+            <param name="secretApp"></param>
+        </member>
         <member name="M:Grapefruit.WebApi.Controllers.v1.SecretController.CancelAccessToken">
             <summary>
-            停用 Token
+            停用 Jwt 授权数据
             </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Grapefruit.WebApi.Controllers.v1.SecretController.RefreshAccessTokenAsync(System.String)">
-            <summary>
-            刷新 Jwt Token 数据
-            </summary>
-            <param name="refreshToken">刷新 Token 值</param>
             <returns></returns>
         </member>
         <member name="M:Grapefruit.WebApi.Controllers.v1.SecretController.Login(Grapefruit.Application.Authorization.Secret.Dto.SecretDto)">
             <summary>
-            获取 Jwt Token 数据
+            获取 Jwt 授权数据
             </summary>
-            <param name="dto">获取 Token 值数据传输对象</param>
+            <param name="dto">授权用户信息</param>
+        </member>
+        <member name="M:Grapefruit.WebApi.Controllers.v1.SecretController.RefreshAccessTokenAsync(Grapefruit.Application.Authorization.Secret.Dto.SecretDto)">
+            <summary>
+            刷新 Jwt 授权数据
+            </summary>
+            <param name="dto">刷新授权用户信息</param>
+            <returns></returns>
         </member>
         <member name="M:Grapefruit.WebApi.Controllers.v1.ValuesController.Get">
             <summary>
@@ -55,49 +84,49 @@
             </summary>
             <param name="id"></param>
         </member>
-        <member name="P:Grapefruit.WebApi.Core.RoleHandler.Schemes">
+        <member name="P:Grapefruit.WebApi.Handlers.RoleHandler.Schemes">
             <summary>
             验证方案提供对象
             </summary>
         </member>
-        <member name="F:Grapefruit.WebApi.Core.RoleHandler._jwtApp">
+        <member name="F:Grapefruit.WebApi.Handlers.RoleHandler._jwtApp">
             <summary>
             
             </summary>
         </member>
-        <member name="M:Grapefruit.WebApi.Core.RoleHandler.#ctor(Microsoft.AspNetCore.Authentication.IAuthenticationSchemeProvider,Grapefruit.Application.Authorization.Jwt.IJwtAppService)">
+        <member name="M:Grapefruit.WebApi.Handlers.RoleHandler.#ctor(Microsoft.AspNetCore.Authentication.IAuthenticationSchemeProvider,Grapefruit.Application.Authorization.Jwt.IJwtAppService)">
             <summary>
             ctor
             </summary>
             <param name="schemes"></param>
             <param name="jwtApp"></param>
         </member>
-        <member name="T:Grapefruit.WebApi.Core.RoleHandler.Menu">
+        <member name="T:Grapefruit.WebApi.Handlers.RoleHandler.Menu">
             <summary>
             测试类
             </summary>
         </member>
-        <member name="P:Grapefruit.WebApi.Core.RoleRequirement.Issuer">
+        <member name="P:Grapefruit.WebApi.Handlers.RoleRequirement.Issuer">
             <summary>
             签发者
             </summary>
         </member>
-        <member name="P:Grapefruit.WebApi.Core.RoleRequirement.Audience">
+        <member name="P:Grapefruit.WebApi.Handlers.RoleRequirement.Audience">
             <summary>
             订阅者
             </summary>
         </member>
-        <member name="P:Grapefruit.WebApi.Core.RoleRequirement.Expiration">
+        <member name="P:Grapefruit.WebApi.Handlers.RoleRequirement.Expiration">
             <summary>
             过期时间
             </summary>
         </member>
-        <member name="P:Grapefruit.WebApi.Core.RoleRequirement.Key">
+        <member name="P:Grapefruit.WebApi.Handlers.RoleRequirement.Key">
             <summary>
             签名
             </summary>
         </member>
-        <member name="M:Grapefruit.WebApi.Core.RoleRequirement.#ctor(System.String,System.String,System.TimeSpan,Microsoft.IdentityModel.Tokens.SecurityKey)">
+        <member name="M:Grapefruit.WebApi.Handlers.RoleRequirement.#ctor(System.String,System.String,System.TimeSpan,Microsoft.IdentityModel.Tokens.SecurityKey)">
             <summary>
             有参构造函数
             </summary>

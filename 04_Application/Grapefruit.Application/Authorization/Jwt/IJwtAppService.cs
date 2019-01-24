@@ -22,7 +22,7 @@ namespace Grapefruit.Application.Authorization.Jwt
         /// </summary>
         /// <param name="dto">用户信息数据传输对象</param>
         /// <returns></returns>
-        JsonWebTokenDto Create(UserDto dto);
+        JwtAuthorizationDto Create(UserDto dto);
 
         /// <summary>
         /// 刷新 Token
@@ -30,7 +30,7 @@ namespace Grapefruit.Application.Authorization.Jwt
         /// <param name="token">Token</param>
         /// <param name="dto">用户信息数据传输对象</param>
         /// <returns></returns>
-        Task<JsonWebTokenDto> RefreshAsync(string token, UserDto dto);
+        Task<JwtAuthorizationDto> RefreshAsync(string token, UserDto dto);
 
         /// <summary>
         /// 判断当前 Token 是否有效
