@@ -48,8 +48,6 @@ namespace Grapefruit.WebApi.Controllers.v1
         /// </summary>
         public IConfiguration _configuration { get; }
 
-        #endregion
-
         /// <summary>
         /// Ctor
         /// </summary>
@@ -65,6 +63,10 @@ namespace Grapefruit.WebApi.Controllers.v1
             _secretApp = secretApp;
             _logger = logger;
         }
+
+        #endregion
+
+
 
         #region APIs
 

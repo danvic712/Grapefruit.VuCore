@@ -84,56 +84,27 @@
             </summary>
             <param name="id"></param>
         </member>
-        <member name="P:Grapefruit.WebApi.Handlers.RoleHandler.Schemes">
+        <member name="P:Grapefruit.WebApi.Handlers.PolicyHandler.Schemes">
             <summary>
-            验证方案提供对象
+            授权方式（cookie, bearer, oauth, openid）
             </summary>
         </member>
-        <member name="F:Grapefruit.WebApi.Handlers.RoleHandler._jwtApp">
+        <member name="F:Grapefruit.WebApi.Handlers.PolicyHandler._jwtApp">
             <summary>
-            
+            jwt 服务
             </summary>
         </member>
-        <member name="M:Grapefruit.WebApi.Handlers.RoleHandler.#ctor(Microsoft.AspNetCore.Authentication.IAuthenticationSchemeProvider,Grapefruit.Application.Authorization.Jwt.IJwtAppService)">
+        <member name="M:Grapefruit.WebApi.Handlers.PolicyHandler.#ctor(Microsoft.AspNetCore.Authentication.IAuthenticationSchemeProvider,Grapefruit.Application.Authorization.Jwt.IJwtAppService)">
             <summary>
             ctor
             </summary>
             <param name="schemes"></param>
             <param name="jwtApp"></param>
         </member>
-        <member name="T:Grapefruit.WebApi.Handlers.RoleHandler.Menu">
+        <member name="T:Grapefruit.WebApi.Handlers.PolicyHandler.Menu">
             <summary>
-            测试类
+            测试菜单类
             </summary>
-        </member>
-        <member name="P:Grapefruit.WebApi.Handlers.RoleRequirement.Issuer">
-            <summary>
-            签发者
-            </summary>
-        </member>
-        <member name="P:Grapefruit.WebApi.Handlers.RoleRequirement.Audience">
-            <summary>
-            订阅者
-            </summary>
-        </member>
-        <member name="P:Grapefruit.WebApi.Handlers.RoleRequirement.Expiration">
-            <summary>
-            过期时间
-            </summary>
-        </member>
-        <member name="P:Grapefruit.WebApi.Handlers.RoleRequirement.Key">
-            <summary>
-            签名
-            </summary>
-        </member>
-        <member name="M:Grapefruit.WebApi.Handlers.RoleRequirement.#ctor(System.String,System.String,System.TimeSpan,Microsoft.IdentityModel.Tokens.SecurityKey)">
-            <summary>
-            有参构造函数
-            </summary>
-            <param name="issuer"></param>
-            <param name="audience"></param>
-            <param name="expiration"></param>
-            <param name="key"></param>
         </member>
     </members>
 </doc>

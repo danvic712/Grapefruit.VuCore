@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file= "RoleHandler.cs">
+// <copyright file= "PolicyHandler.cs">
 //     Copyright (c) Danvic712. All rights reserved.
 // </copyright>
 // Author: Danvic712
@@ -11,7 +11,6 @@ using Grapefruit.Application.Authorization.Jwt;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,15 +19,15 @@ using System.Threading.Tasks;
 
 namespace Grapefruit.WebApi.Handlers
 {
-    public class RoleHandler : AuthorizationHandler<RoleRequirement>
+    public class PolicyHandler : AuthorizationHandler<PolicyRequirement>
     {
         /// <summary>
-        /// 验证方案提供对象
+        /// 授权方式（cookie, bearer, oauth, openid）
         /// </summary>
         public IAuthenticationSchemeProvider Schemes { get; set; }
 
         /// <summary>
-        /// 
+        /// jwt 服务
         /// </summary>
         private readonly IJwtAppService _jwtApp;
 
@@ -37,16 +36,16 @@ namespace Grapefruit.WebApi.Handlers
         /// </summary>
         /// <param name="schemes"></param>
         /// <param name="jwtApp"></param>
-        public RoleHandler(IAuthenticationSchemeProvider schemes, IJwtAppService jwtApp)
+        public PolicyHandler(IAuthenticationSchemeProvider schemes, IJwtAppService jwtApp)
         {
             Schemes = schemes;
             _jwtApp = jwtApp;
         }
 
         //授权处理
-        protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, RoleRequirement requirement)
+        protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, PolicyRequirement requirement)
         {
-            //1、Todo：获取角色、Url 对应关系
+            //Todo：获取角色、Url 对应关系
             List<Menu> list = new List<Menu> {
                 new Menu
                 {
@@ -65,29 +64,17 @@ namespace Grapefruit.WebApi.Handlers
                 }
             };
 
-            //验证用户角色是否拥有请求地址权限
             var httpContext = (context.Resource as AuthorizationFilterContext).HttpContext;
 
-            var url = httpContext.Request.Path.Value.ToLower();
-
-            //判断请求是否停止
-            var handlers = httpContext.RequestServices.GetRequiredService<IAuthenticationHandlerProvider>();
-            foreach (var scheme in await Schemes.GetRequestHandlerSchemesAsync())
-            {
-                if (await handlers.GetHandlerAsync(httpContext, scheme.Name) is IAuthenticationRequestHandler handler
-                    && await handler.HandleRequestAsync())
-                {
-                    context.Fail();
-                    return;
-                }
-            }
+            //获取授权方式
             var defaultAuthenticate = await Schemes.GetDefaultAuthenticateSchemeAsync();
             if (defaultAuthenticate != null)
             {
+                //验证签发的用户信息
                 var result = await httpContext.AuthenticateAsync(defaultAuthenticate.Name);
                 if (result.Succeeded)
                 {
-                    //判断是否为过期 Token 信息
+                    //判断是否为已停用的 Token
                     if (!await _jwtApp.IsCurrentActiveTokenAsync())
                     {
                         context.Fail();
@@ -95,8 +82,10 @@ namespace Grapefruit.WebApi.Handlers
                     }
 
                     httpContext.User = result.Principal;
+                    
                     //判断角色与 Url 是否对应
                     //
+                    var url = httpContext.Request.Path.Value.ToLower();
                     var role = httpContext.User.Claims.Where(c => c.Type == ClaimTypes.Role).FirstOrDefault().Value;
                     var menu = list.Where(x => x.Role.Equals(role) && x.Url.ToLower().Equals(url)).FirstOrDefault();
 
@@ -106,7 +95,7 @@ namespace Grapefruit.WebApi.Handlers
                         return;
                     }
 
-                    //判断过期时间
+                    //判断是否过期
                     if (DateTime.Parse(httpContext.User.Claims.SingleOrDefault(s => s.Type == ClaimTypes.Expiration).Value) >= DateTime.UtcNow)
                     {
                         context.Succeed(requirement);
@@ -118,18 +107,11 @@ namespace Grapefruit.WebApi.Handlers
                     return;
                 }
             }
-            //判断没有登录时，是否访问登录的url,并且是Post请求，并且是form表单提交类型，否则为失败
-            if (!url.Equals("") && (!httpContext.Request.Method.Equals("POST")
-               || !httpContext.Request.HasFormContentType))
-            {
-                context.Fail();
-                return;
-            }
-            context.Succeed(requirement);
+            context.Fail();
         }
 
         /// <summary>
-        /// 测试类
+        /// 测试菜单类
         /// </summary>
         public class Menu
         {

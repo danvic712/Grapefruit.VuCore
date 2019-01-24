@@ -91,6 +91,7 @@ namespace Grapefruit.Application.Authorization.Jwt
             };
             identity.AddClaims(claims);
 
+            //签发一个加密后的用户信息凭证，用来标识用户的身份
             _httpContextAccessor.HttpContext.SignInAsync(JwtBearerDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
 
             var tokenDescriptor = new SecurityTokenDescriptor

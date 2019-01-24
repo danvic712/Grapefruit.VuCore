@@ -104,6 +104,11 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="F:Grapefruit.Application.Authorization.Jwt.JwtAppService._tokens">
+            <summary>
+            已授权的 Token 信息集合
+            </summary>
+        </member>
         <member name="F:Grapefruit.Application.Authorization.Jwt.JwtAppService._cache">
             <summary>
             分布式缓存
@@ -117,11 +122,6 @@
         <member name="F:Grapefruit.Application.Authorization.Jwt.JwtAppService._httpContextAccessor">
             <summary>
             获取 HTTP 请求上下文
-            </summary>
-        </member>
-        <member name="F:Grapefruit.Application.Authorization.Jwt.JwtAppService._tokens">
-            <summary>
-            已授权的 Token 信息集合
             </summary>
         </member>
         <member name="M:Grapefruit.Application.Authorization.Jwt.JwtAppService.#ctor(Microsoft.Extensions.Caching.Distributed.IDistributedCache,Microsoft.AspNetCore.Http.IHttpContextAccessor,Microsoft.Extensions.Configuration.IConfiguration)">
