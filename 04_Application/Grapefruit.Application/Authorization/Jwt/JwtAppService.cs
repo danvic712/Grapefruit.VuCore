@@ -33,7 +33,7 @@ namespace Grapefruit.Application.Authorization.Jwt
         /// <summary>
         /// 已授权的 Token 信息集合
         /// </summary>
-        private static readonly ISet<JwtAuthorizationDto> _tokens = new HashSet<JwtAuthorizationDto>();
+        private static ISet<JwtAuthorizationDto> _tokens = new HashSet<JwtAuthorizationDto>();
 
         /// <summary>
         /// 分布式缓存
@@ -105,7 +105,7 @@ namespace Grapefruit.Application.Authorization.Jwt
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            //存储刷新后的 Token 信息
+            //存储 Token 信息
             var jwt = new JwtAuthorizationDto
             {
                 UserId = dto.Id,
