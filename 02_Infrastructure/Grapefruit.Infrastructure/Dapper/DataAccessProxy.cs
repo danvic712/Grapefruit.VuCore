@@ -10,6 +10,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Threading.Tasks;
 
 namespace Grapefruit.Infrastructure.Dapper
 {
@@ -75,6 +76,33 @@ namespace Grapefruit.Infrastructure.Dapper
         }
 
         /// <summary>
+        /// 执行SQL语句或存储过程返回对象
+        /// </summary>
+        /// <param name="sql">SQL语句 or 存储过程名</param>
+        /// <param name="param">参数</param>
+        /// <param name="hasTransaction">是否使用事务</param>
+        /// <param name="commandType">命令类型</param>
+        /// <returns></returns>
+        public Task<object> ExecuteAsync(string sql, object param, bool hasTransaction = false, CommandType commandType = CommandType.Text)
+        {
+            return _dataAccess.ExecuteAsync(sql, param, hasTransaction, commandType);
+        }
+
+        /// <summary>
+        /// 执行SQL语句返回对象
+        /// </summary>
+        /// <param name="sql">SQL语句 or 存储过程名</param>
+        /// <param name="param">参数</param>
+        /// <param name="transaction">外部事务</param>
+        /// <param name="connection">数据库连接</param>
+        /// <param name="commandType">命令类型</param>
+        /// <returns></returns>
+        public Task<object> ExecuteAsync(string sql, object param, IDbTransaction transaction, IDbConnection connection, CommandType commandType = CommandType.Text)
+        {
+            return _dataAccess.ExecuteAsync(sql, param, transaction, connection, commandType);
+        }
+
+        /// <summary>
         /// 执行SQL语句或存储过程，返回IList<T>对象
         /// </summary>
         /// <typeparam name="T">类型</typeparam>
@@ -101,6 +129,35 @@ namespace Grapefruit.Infrastructure.Dapper
         public IList<T> ExecuteIList<T>(string sql, object param, IDbTransaction transaction, IDbConnection connection, CommandType commandType = CommandType.Text)
         {
             return _dataAccess.ExecuteIList<T>(sql, param, transaction, connection, commandType);
+        }
+
+        /// <summary>
+        /// 执行SQL语句或存储过程，返回IList<T>对象
+        /// </summary>
+        /// <typeparam name="T">类型</typeparam>
+        /// <param name="sql">SQL语句 or 存储过程名</param>
+        /// <param name="param">参数</param>
+        /// <param name="hasTransaction">是否使用事务</param>
+        /// <param name="commandType">命令类型</param>
+        /// <returns></returns>
+        public Task<IList<T>> ExecuteIListAsync<T>(string sql, object param, bool hasTransaction = false, CommandType commandType = CommandType.Text)
+        {
+            return _dataAccess.ExecuteIListAsync<T>(sql, param, hasTransaction, commandType);
+        }
+
+        /// <summary>
+        /// 执行SQL语句或存储过程，返回IList<T>对象
+        /// </summary>
+        /// <typeparam name="T">类型</typeparam>
+        /// <param name="sql">SQL语句 or 存储过程名</param>
+        /// <param name="param">参数</param>
+        /// <param name="transaction">外部事务</param>
+        /// <param name="connection">数据库连接</param>
+        /// <param name="commandType">命令类型</param>
+        /// <returns></returns>
+        public Task<IList<T>> ExecuteIListAsync<T>(string sql, object param, IDbTransaction transaction, IDbConnection connection, CommandType commandType = CommandType.Text)
+        {
+            return _dataAccess.ExecuteIListAsync<T>(sql, param, transaction, connection, commandType);
         }
 
         /// <summary>
@@ -131,6 +188,33 @@ namespace Grapefruit.Infrastructure.Dapper
         }
 
         /// <summary>
+        /// 执行SQL语句或存储过程返回受影响行数
+        /// </summary>
+        /// <param name="sql">SQL语句 or 存储过程名</param>
+        /// <param name="param">参数</param>
+        /// <param name="hasTransaction">是否使用事务</param>
+        /// <param name="commandType">命令类型</param>
+        /// <returns></returns>
+        public Task<int> ExecuteNonQueryAsync(string sql, object param, bool hasTransaction = false, CommandType commandType = CommandType.Text)
+        {
+            return _dataAccess.ExecuteNonQueryAsync(sql, param, hasTransaction, commandType);
+        }
+
+        /// <summary>
+        /// 执行SQL语句或存储过程返回受影响行数
+        /// </summary>
+        /// <param name="sql">SQL语句 or 存储过程名</param>
+        /// <param name="param">参数</param>
+        /// <param name="transaction">外部事务</param>
+        /// <param name="connection">数据库连接</param>
+        /// <param name="commandType">命令类型</param>
+        /// <returns></returns>
+        public Task<int> ExecuteNonQueryAsync(string sql, object param, IDbTransaction transaction, IDbConnection connection, CommandType commandType = CommandType.Text)
+        {
+            return _dataAccess.ExecuteNonQueryAsync(sql, param, transaction, connection, commandType);
+        }
+
+        /// <summary>
         /// 执行语句返回T对象
         /// </summary>
         /// <typeparam name="T">类型</typeparam>
@@ -142,6 +226,20 @@ namespace Grapefruit.Infrastructure.Dapper
         public T ExecuteScalar<T>(string sql, object param, bool hasTransaction = false, CommandType commandType = CommandType.Text)
         {
             return _dataAccess.ExecuteScalar<T>(sql, param, hasTransaction, commandType);
+        }
+
+        /// <summary>
+        /// 执行语句返回T对象
+        /// </summary>
+        /// <typeparam name="T">类型</typeparam>
+        /// <param name="sql">SQL语句 or 存储过程名</param>
+        /// <param name="param">参数</param>
+        /// <param name="hasTransaction">是否使用事务</param>
+        /// <param name="commandType">命令类型</param>
+        /// <returns></returns>
+        public Task<T> ExecuteScalarAsync<T>(string sql, object param, bool hasTransaction = false, CommandType commandType = CommandType.Text)
+        {
+            return _dataAccess.ExecuteScalarAsync<T>(sql, param, hasTransaction, commandType);
         }
 
         #endregion
