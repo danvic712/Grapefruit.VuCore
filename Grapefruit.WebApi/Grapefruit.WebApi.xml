@@ -106,5 +106,27 @@
             测试菜单类
             </summary>
         </member>
+        <member name="M:Grapefruit.WebApi.Middlewares.DapperMiddleware.#ctor(Grapefruit.Infrastructure.Dapper.IDataRepository,Microsoft.Extensions.Logging.ILogger{Grapefruit.WebApi.Middlewares.DapperMiddleware},Microsoft.AspNetCore.Http.RequestDelegate)">
+            <summary>
+            ctor
+            </summary>
+            <param name="repository"></param>
+            <param name="logger"></param>
+            <param name="request"></param>
+        </member>
+        <member name="M:Grapefruit.WebApi.Middlewares.DapperMiddleware.InvokeAsync(Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+            注入中间件到HttpContext中
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Grapefruit.WebApi.Middlewares.DapperMiddlewareExtensions.UseDapper(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            调用中间件
+            </summary>
+            <param name="builder"></param>
+            <returns></returns>
+        </member>
     </members>
 </doc>

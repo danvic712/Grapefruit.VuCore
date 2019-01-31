@@ -21,7 +21,7 @@ namespace Grapefruit.Domain
     {
         #region APIs
 
-        public TEntity GetEntityById(TPrimaryKey id)
+        public TEntity GetEntityById(TPrimaryKey id, string sql)
         {
             throw new NotImplementedException();
         }

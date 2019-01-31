@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using Grapefruit.Infrastructure.Dapper;
 using Grapefruit.WebApi.Handlers;
+using Grapefruit.WebApi.Middlewares;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -207,6 +209,9 @@ namespace Grapefruit.WebApi
 
             #region Others
 
+            //DI Sql Data
+            services.AddSingleton<IDataRepository, DataRepository>();
+
             services.AddAutoMapper();
 
             services.AddDistributedRedisCache(r =>
@@ -232,6 +237,9 @@ namespace Grapefruit.WebApi
 
             //Enable Cors
             app.UseCors(_defaultCorsPolicyName);
+
+            //Load Sql Data
+            app.UseDapper();
 
             //Enable Authentication
             app.UseAuthentication();

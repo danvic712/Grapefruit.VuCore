@@ -33,8 +33,9 @@ namespace Grapefruit.Domain
         /// 根据主键获取实体信息
         /// </summary>
         /// <param name="id">主键</param>
+        /// <param name="sql">查询语句</param>
         /// <returns></returns>
-        TEntity GetEntityById(TPrimaryKey id);
+        TEntity GetEntityById(TPrimaryKey id, string sql);
 
         #endregion
     }

@@ -5,6 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Authorization\Secret\Repository\SecretApp.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Authorization\Secret\Repository\SecretApp.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\01_Entity\Grapefruit.Entity\Grapefruit.Entity.csproj" />
     <ProjectReference Include="..\..\02_Infrastructure\Grapefruit.Infrastructure\Grapefruit.Infrastructure.csproj" />
   </ItemGroup>
