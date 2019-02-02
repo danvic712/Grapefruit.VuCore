@@ -28,7 +28,7 @@ namespace Grapefruit.WebApi
         //Cors policy name
         private const string _defaultCorsPolicyName = "Grapefruit.Cors";
 
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IDataRepository repository)
         {
             Configuration = configuration;
         }
@@ -230,16 +230,13 @@ namespace Grapefruit.WebApi
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
             }
-            else
-            {
-                app.UseHsts();
-            }
+            app.UseHsts();
 
             //Enable Cors
             app.UseCors(_defaultCorsPolicyName);
 
             //Load Sql Data
-            app.UseDapper();
+            //app.UseDapper();
 
             //Enable Authentication
             app.UseAuthentication();

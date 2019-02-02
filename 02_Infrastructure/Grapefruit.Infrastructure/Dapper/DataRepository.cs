@@ -31,6 +31,7 @@ namespace Grapefruit.Infrastructure.Dapper
         /// 分布式缓存
         /// </summary>
         private readonly IDistributedCache _cache;
+
         /// <summary>
         /// ctor
         /// </summary>
@@ -119,7 +120,7 @@ namespace Grapefruit.Infrastructure.Dapper
                         Name = item.Attribute("Name").Value.ToString(),
                         Sql = item.Value.ToString().Replace("<![CDATA[", "").Replace("]]>", "")
                     };
-                    command.Sql = command.Sql.Replace("\r\n", "");
+                    command.Sql = command.Sql.Replace("\r\n", "").Replace("\n", "").Trim();
                     LoadSQL(command.Name, command.Sql);
                 }
             }

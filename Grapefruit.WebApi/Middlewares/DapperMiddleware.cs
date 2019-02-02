@@ -11,6 +11,7 @@ using Grapefruit.Infrastructure.Dapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace Grapefruit.WebApi.Middlewares
@@ -43,12 +44,16 @@ namespace Grapefruit.WebApi.Middlewares
         /// <returns></returns>
         public async Task InvokeAsync(HttpContext context)
         {
-            _logger.LogInformation($"加载存储XML文件DLL，开始时间：{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}");
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
 
             //加载存储xml的dll
             _repository.LoadDataXmlStore();
 
-            _logger.LogInformation($"加载完成存储XML文件DLL，结束时间：{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}");
+            sw.Stop();
+            TimeSpan ts = sw.Elapsed;
+
+            _logger.LogInformation($"加载存储 XML 文件DLL，总共用时：{ts.TotalMinutes} 秒");
 
             await _request(context);
         }
