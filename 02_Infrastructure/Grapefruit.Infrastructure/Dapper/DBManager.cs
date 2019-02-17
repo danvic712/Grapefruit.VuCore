@@ -39,7 +39,7 @@ namespace Grapefruit.Infrastructure.Dapper
         /// <summary>
         /// MsSQL 数据库连接字符串
         /// </summary>
-        public static IDataAccess GrapefruitMs
+        public static IDataAccess MsSQL
         {
             get
             {
@@ -60,7 +60,7 @@ namespace Grapefruit.Infrastructure.Dapper
         /// <summary>
         /// MySQL 数据库连接字符串
         /// </summary>
-        public static IDataAccess GrapefruitMy
+        public static IDataAccess MySQL
         {
             get
             {

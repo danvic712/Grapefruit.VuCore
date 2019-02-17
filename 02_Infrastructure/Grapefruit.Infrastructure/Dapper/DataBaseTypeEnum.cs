@@ -7,9 +7,6 @@
 // Modified by:
 // Description: 数据库类型枚举
 //-----------------------------------------------------------------------
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Grapefruit.Infrastructure.Dapper
 {
