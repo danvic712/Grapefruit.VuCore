@@ -1,27 +1,24 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file= "EntityBase.cs">
+// <copyright file= "ValueBase.cs">
 //     Copyright (c) Danvic712. All rights reserved.
 // </copyright>
 // Author: Danvic712
-// Created DateTime: 2019/1/7 20:05:46 
+// Created DateTime: 2019/2/12 18:28:27 
 // Modified by:
-// Description: 泛型实体基类
+// Description: 泛型值对象基类
 //-----------------------------------------------------------------------
 using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace Grapefruit.Entity
 {
     /// <summary>
-    /// 泛型实体基类
+    /// 泛型值对象基类
     /// </summary>
-    /// <typeparam name="TPrimaryKey">主键</typeparam>
-    public abstract class EntityBase<TPrimaryKey>
+    /// <typeparam name="T"></typeparam>
+    public abstract class ValueBase<T> where T : ValueBase<T>
     {
-        /// <summary>
-        /// 主键
-        /// </summary>
-        public virtual TPrimaryKey Id { get; set; }
-
         public override bool Equals(object obj)
         {
             return base.Equals(obj);
@@ -32,14 +29,4 @@ namespace Grapefruit.Entity
             return base.GetHashCode();
         }
     }
-
-    #region Implements
-
-    /// <summary>
-    /// Guid 类型主键实体基类
-    /// </summary>
-    public abstract class EntityBase : EntityBase<Guid>
-    { }
-
-    #endregion
 }
