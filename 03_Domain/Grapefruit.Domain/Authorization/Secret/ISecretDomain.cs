@@ -1,31 +1,31 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file= "ISecretAppService.cs">
+// <copyright file= "ISecretDomain.cs">
 //     Copyright (c) Danvic712. All rights reserved.
 // </copyright>
 // Author: Danvic712
-// Created DateTime: 2018/12/19 15:02:39 
+// Created DateTime: 2019/2/17 13:50:47 
 // Modified by:
 // Description: 
 //-----------------------------------------------------------------------
-using Grapefruit.Application.Authorization.Secret.Dto;
+using Grapefruit.Entity.Permission;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Grapefruit.Application.Authorization.Secret
+namespace Grapefruit.Domain.Authorization.Secret
 {
-    public interface ISecretAppService
+    public interface ISecretDomain
     {
         #region APIs
 
         /// <summary>
-        /// 获取登录用户信息
+        /// 根据帐户名、密码获取用户实体信息
         /// </summary>
         /// <param name="account">账户名</param>
         /// <param name="password">密码</param>
         /// <returns></returns>
-        Task<UserDto> GetCurrentUserAsync(string account, string password);
+        Task<IdentityUser> GetUserByLoginAsync(string account, string password);
 
         #endregion
     }

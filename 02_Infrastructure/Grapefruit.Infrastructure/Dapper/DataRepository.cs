@@ -60,7 +60,7 @@ namespace Grapefruit.Infrastructure.Dapper
         /// </summary>
         public void LoadDataXmlStore()
         {
-            string repositoryPrefix = ConfigurationManager.GetConfig("RepositoryAssembly:Assembly");
+            string repositoryPrefix = ConfigurationManager.GetConfig("Assembly:RepositoryAssembly");
             if (string.IsNullOrEmpty(repositoryPrefix))
             {
                 return;

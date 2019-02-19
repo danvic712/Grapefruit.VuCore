@@ -39,7 +39,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Grapefruit.WebApi.Controllers.v1.SecretController.Login(Grapefruit.Application.Authorization.Secret.Dto.SecretDto)">
+        <member name="M:Grapefruit.WebApi.Controllers.v1.SecretController.LoginAsync(Grapefruit.Application.Authorization.Secret.Dto.SecretDto)">
             <summary>
             获取 Jwt 授权数据
             </summary>

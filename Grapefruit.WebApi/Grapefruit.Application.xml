@@ -233,5 +233,32 @@
             角色
             </summary>
         </member>
+        <member name="M:Grapefruit.Application.Authorization.Secret.ISecretAppService.GetCurrentUserAsync(System.String,System.String)">
+            <summary>
+            获取登录用户信息
+            </summary>
+            <param name="account">账户名</param>
+            <param name="password">密码</param>
+            <returns></returns>
+        </member>
+        <member name="F:Grapefruit.Application.Authorization.Secret.SecretAppService._secret">
+            <summary>
+            领域接口
+            </summary>
+        </member>
+        <member name="M:Grapefruit.Application.Authorization.Secret.SecretAppService.#ctor(Grapefruit.Domain.Authorization.Secret.ISecretDomain)">
+            <summary>
+            ctor
+            </summary>
+            <param name="secret"></param>
+        </member>
+        <member name="M:Grapefruit.Application.Authorization.Secret.SecretAppService.GetCurrentUserAsync(System.String,System.String)">
+            <summary>
+            获取登录用户信息
+            </summary>
+            <param name="account">账户名</param>
+            <param name="password">密码</param>
+            <returns></returns>
+        </member>
     </members>
 </doc>

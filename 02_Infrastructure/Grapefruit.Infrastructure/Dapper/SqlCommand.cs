@@ -18,16 +18,6 @@ namespace Grapefruit.Infrastructure.Dapper
         public string Name { get; set; }
 
         /// <summary>
-        /// SQL语句创建者
-        /// </summary>
-        public string Author { get; set; }
-
-        /// <summary>
-        /// SQL语句版本
-        /// </summary>
-        public string Version { get; set; }
-
-        /// <summary>
         /// SQL语句或存储过程内容
         /// </summary>
         public string Sql { get; set; }

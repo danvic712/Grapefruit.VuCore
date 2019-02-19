@@ -28,7 +28,7 @@ namespace Grapefruit.WebApi
         //Cors policy name
         private const string _defaultCorsPolicyName = "Grapefruit.Cors";
 
-        public Startup(IConfiguration configuration, IDataRepository repository)
+        public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
@@ -40,13 +40,23 @@ namespace Grapefruit.WebApi
         {
             #region Dependency Injection Services
 
-            Assembly assembly = Assembly.Load("Grapefruit.Application");
-            foreach (var implement in assembly.GetTypes())
+            //Load assembly from appsetting.json
+            //
+            string assemblies = Configuration["Assembly:FunctionAssembly"];
+
+            if (!string.IsNullOrEmpty(assemblies))
             {
-                Type[] interfaceType = implement.GetInterfaces();
-                foreach (var service in interfaceType)
+                foreach (var item in assemblies.Split('|'))
                 {
-                    services.AddTransient(service, implement);
+                    Assembly assembly = Assembly.Load(item);
+                    foreach (var implement in assembly.GetTypes())
+                    {
+                        Type[] interfaceType = implement.GetInterfaces();
+                        foreach (var service in interfaceType)
+                        {
+                            services.AddTransient(service, implement);
+                        }
+                    }
                 }
             }
 
@@ -209,15 +219,15 @@ namespace Grapefruit.WebApi
 
             #region Others
 
-            //DI Sql Data
-            services.AddSingleton<IDataRepository, DataRepository>();
-
             services.AddAutoMapper();
 
             services.AddDistributedRedisCache(r =>
             {
                 r.Configuration = Configuration["Redis:ConnectionString"];
             });
+
+            //DI Sql Data
+            services.AddTransient<IDataRepository, DataRepository>();
 
             #endregion
         }
@@ -236,7 +246,7 @@ namespace Grapefruit.WebApi
             app.UseCors(_defaultCorsPolicyName);
 
             //Load Sql Data
-            //app.UseDapper();
+            app.UseDapper();
 
             //Enable Authentication
             app.UseAuthentication();
