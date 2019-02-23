@@ -67,7 +67,7 @@ namespace Grapefruit.Infrastructure.Dapper
             }
             foreach (var item in repositoryPrefix.Split('|'))
             {
-                string fullPath = AppDomain.CurrentDomain.BaseDirectory + item + ".Domain.dll";
+                string fullPath = AppDomain.CurrentDomain.BaseDirectory + item;
                 if (!File.Exists(fullPath))
                 {
                     continue;
@@ -131,7 +131,7 @@ namespace Grapefruit.Infrastructure.Dapper
         /// </summary>
         /// <param name="commandName">SQL语句名称</param>
         /// <param name="commandSQL">SQL语句内容</param>
-        private string LoadSQL(string commandName, string commandSQL)
+        private void LoadSQL(string commandName, string commandSQL)
         {
             if (string.IsNullOrEmpty(commandName))
             {
@@ -144,8 +144,6 @@ namespace Grapefruit.Infrastructure.Dapper
             {
                 StoreToCache(commandName, commandSQL);
             }
-
-            return result;
         }
 
         /// <summary>

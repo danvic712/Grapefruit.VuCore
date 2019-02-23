@@ -18,8 +18,15 @@ namespace Grapefruit.Infrastructure.Dapper
     {
         #region Initialize
 
+        /// <summary>
+        /// 
+        /// </summary>
         private readonly IDataAccess _dataAccess;
 
+        /// <summary>
+        /// ctor
+        /// </summary>
+        /// <param name="dataAccess"></param>
         public DataAccessProxy(IDataAccess dataAccess)
         {
             _dataAccess = dataAccess ?? throw new ArgumentNullException("dataAccess is null");
@@ -51,55 +58,59 @@ namespace Grapefruit.Infrastructure.Dapper
         /// <summary>
         /// 执行SQL语句或存储过程返回对象
         /// </summary>
+        /// <typeparam name="T">类型</typeparam>
         /// <param name="sql">SQL语句 or 存储过程名</param>
         /// <param name="param">参数</param>
         /// <param name="hasTransaction">是否使用事务</param>
         /// <param name="commandType">命令类型</param>
         /// <returns></returns>
-        public object Execute(string sql, object param, bool hasTransaction = false, CommandType commandType = CommandType.Text)
+        public T Execute<T>(string sql, object param, bool hasTransaction = false, CommandType commandType = CommandType.Text)
         {
-            return _dataAccess.Execute(sql, param, hasTransaction, commandType);
+            return _dataAccess.Execute<T>(sql, param, hasTransaction, commandType);
         }
 
         /// <summary>
         /// 执行SQL语句返回对象
         /// </summary>
+        /// <typeparam name="T">类型</typeparam>
         /// <param name="sql">SQL语句 or 存储过程名</param>
         /// <param name="param">参数</param>
         /// <param name="transaction">外部事务</param>
         /// <param name="connection">数据库连接</param>
         /// <param name="commandType">命令类型</param>
         /// <returns></returns>
-        public object Execute(string sql, object param, IDbTransaction transaction, IDbConnection connection, CommandType commandType = CommandType.Text)
+        public T Execute<T>(string sql, object param, IDbTransaction transaction, IDbConnection connection, CommandType commandType = CommandType.Text)
         {
-            return _dataAccess.Execute(sql, param, transaction, connection, commandType);
+            return _dataAccess.Execute<T>(sql, param, transaction, connection, commandType);
         }
 
         /// <summary>
         /// 执行SQL语句或存储过程返回对象
         /// </summary>
+        /// <typeparam name="T">类型</typeparam>
         /// <param name="sql">SQL语句 or 存储过程名</param>
         /// <param name="param">参数</param>
         /// <param name="hasTransaction">是否使用事务</param>
         /// <param name="commandType">命令类型</param>
         /// <returns></returns>
-        public Task<object> ExecuteAsync(string sql, object param, bool hasTransaction = false, CommandType commandType = CommandType.Text)
+        public Task<T> ExecuteAsync<T>(string sql, object param, bool hasTransaction = false, CommandType commandType = CommandType.Text)
         {
-            return _dataAccess.ExecuteAsync(sql, param, hasTransaction, commandType);
+            return _dataAccess.ExecuteAsync<T>(sql, param, hasTransaction, commandType);
         }
 
         /// <summary>
         /// 执行SQL语句返回对象
         /// </summary>
+        /// <typeparam name="T">类型</typeparam>
         /// <param name="sql">SQL语句 or 存储过程名</param>
         /// <param name="param">参数</param>
         /// <param name="transaction">外部事务</param>
         /// <param name="connection">数据库连接</param>
         /// <param name="commandType">命令类型</param>
         /// <returns></returns>
-        public Task<object> ExecuteAsync(string sql, object param, IDbTransaction transaction, IDbConnection connection, CommandType commandType = CommandType.Text)
+        public Task<T> ExecuteAsync<T>(string sql, object param, IDbTransaction transaction, IDbConnection connection, CommandType commandType = CommandType.Text)
         {
-            return _dataAccess.ExecuteAsync(sql, param, transaction, connection, commandType);
+            return _dataAccess.ExecuteAsync<T>(sql, param, transaction, connection, commandType);
         }
 
         /// <summary>
@@ -215,7 +226,7 @@ namespace Grapefruit.Infrastructure.Dapper
         }
 
         /// <summary>
-        /// 执行语句返回T对象
+        /// 执行语句返回单个值对象
         /// </summary>
         /// <typeparam name="T">类型</typeparam>
         /// <param name="sql">SQL语句 or 存储过程名</param>
@@ -229,7 +240,7 @@ namespace Grapefruit.Infrastructure.Dapper
         }
 
         /// <summary>
-        /// 执行语句返回T对象
+        /// 执行语句返回单个值对象
         /// </summary>
         /// <typeparam name="T">类型</typeparam>
         /// <param name="sql">SQL语句 or 存储过程名</param>

@@ -25,7 +25,7 @@ namespace Grapefruit.Domain.Authorization.Secret
         /// <param name="account">账户名</param>
         /// <param name="password">密码</param>
         /// <returns></returns>
-        Task<IdentityUser> GetUserByLoginAsync(string account, string password);
+        Task<IdentityUser> GetUserForLoginAsync(string account, string password);
 
         #endregion
     }

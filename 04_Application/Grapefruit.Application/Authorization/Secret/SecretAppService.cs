@@ -46,7 +46,7 @@ namespace Grapefruit.Application.Authorization.Secret
         /// <returns></returns>
         public async Task<UserDto> GetCurrentUserAsync(string account, string password)
         {
-            var user = await _secret.GetUserByLoginAsync(account, password);
+            var user = await _secret.GetUserForLoginAsync(account, password);
 
             //Todo：AutoMapper 做实体转换
 

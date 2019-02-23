@@ -9,6 +9,7 @@
 //-----------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Grapefruit.Entity.Permission;
@@ -44,13 +45,13 @@ namespace Grapefruit.Domain.Authorization.Secret
         /// <param name="account">账户名</param>
         /// <param name="password">密码</param>
         /// <returns></returns>
-        public async Task<IdentityUser> GetUserByLoginAsync(string account, string password)
+        public async Task<IdentityUser> GetUserForLoginAsync(string account, string password)
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append(_repository.GetCommandSQL("Secret_GetUserByLoginAsync"));
             string sql = strSql.ToString();
 
-            return await DBManager.MsSQL.ExecuteScalarAsync<IdentityUser>(sql, new
+            return await DBManager.MsSQL.ExecuteAsync<IdentityUser>(sql, new
             {
                 account,
                 password

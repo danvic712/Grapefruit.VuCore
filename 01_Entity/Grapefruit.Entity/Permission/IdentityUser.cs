@@ -33,6 +33,6 @@ namespace Grapefruit.Entity.Permission
         /// <summary>
         /// 加密参数
         /// </summary>
-        public string Salt { get; set; }
+        public Guid Salt { get; set; }
     }
 }

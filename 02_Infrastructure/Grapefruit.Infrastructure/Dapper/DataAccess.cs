@@ -9,6 +9,7 @@
 //-----------------------------------------------------------------------
 using Dapper;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -23,20 +24,20 @@ namespace Grapefruit.Infrastructure.Dapper
     {
         #region Initialize
 
+        /// <summary>
+        /// 数据库连接字符串
+        /// </summary>
         private readonly string _connectionString;
 
+        /// <summary>
+        /// 数据库类型枚举
+        /// </summary>
         private readonly DataBaseTypeEnum _dataBaseType;
 
-        private readonly ILogger _logger;
-
         /// <summary>
-        /// 构造函数注入日志记录
+        /// 日志记录
         /// </summary>
-        /// <param name="logger"></param>
-        public DataAccess(ILogger<DataAccess> logger)
-        {
-            _logger = logger;
-        }
+        private ILogger<DataAccess> _logger { get; set; }
 
         /// <summary>
         /// 有参构造函数
@@ -45,6 +46,9 @@ namespace Grapefruit.Infrastructure.Dapper
         /// <param name="dataBaseType">数据库类型</param>
         public DataAccess(string connectionString, DataBaseTypeEnum dataBaseType)
         {
+            //属性注入日志记录
+            _logger = NullLogger<DataAccess>.Instance;
+
             if (string.IsNullOrEmpty(connectionString))
             {
                 _logger.LogError("创建数据库连接失败，错误信息：数据库连接字符串为空");
@@ -105,14 +109,15 @@ namespace Grapefruit.Infrastructure.Dapper
         /// <summary>
         /// 执行SQL语句或存储过程返回对象
         /// </summary>
+        /// <typeparam name="T">类型</typeparam>
         /// <param name="sql">SQL语句 or 存储过程名</param>
         /// <param name="param">参数</param>
         /// <param name="hasTransaction">是否使用事务</param>
         /// <param name="commandType">命令类型</param>
         /// <returns></returns>
-        public object Execute(string sql, object param, bool hasTransaction = false, CommandType commandType = CommandType.Text)
+        public T Execute<T>(string sql, object param, bool hasTransaction = false, CommandType commandType = CommandType.Text)
         {
-            object obj = null;
+            T obj = default(T);
             using (var connection = DbConnection())
             {
                 if (connection.State == ConnectionState.Closed)
@@ -128,11 +133,11 @@ namespace Grapefruit.Infrastructure.Dapper
                         {
                             if (commandType == CommandType.Text)
                             {
-                                obj = connection.QueryFirstOrDefault(sql, param, transaction, null, CommandType.Text);
+                                obj = connection.QueryFirstOrDefault<T>(sql, param, transaction, null, CommandType.Text);
                             }
                             else
                             {
-                                obj = connection.QueryFirstOrDefault(sql, param, transaction, null, CommandType.StoredProcedure);
+                                obj = connection.QueryFirstOrDefault<T>(sql, param, transaction, null, CommandType.StoredProcedure);
                             }
                             transaction.Commit();
                         }
@@ -149,11 +154,11 @@ namespace Grapefruit.Infrastructure.Dapper
                     {
                         if (commandType == CommandType.Text)
                         {
-                            obj = connection.QueryFirstOrDefault(sql, param, null, null, CommandType.Text);
+                            obj = connection.QueryFirstOrDefault<T>(sql, param, null, null, CommandType.Text);
                         }
                         else
                         {
-                            obj = connection.QueryFirstOrDefault(sql, param, null, null, CommandType.StoredProcedure);
+                            obj = connection.QueryFirstOrDefault<T>(sql, param, null, null, CommandType.StoredProcedure);
                         }
                     }
                     catch (Exception ex)
@@ -168,15 +173,16 @@ namespace Grapefruit.Infrastructure.Dapper
         /// <summary>
         /// 执行SQL语句返回Object对象
         /// </summary>
+        /// <typeparam name="T">类型</typeparam>
         /// <param name="sql">SQL语句 or 存储过程名</param>
         /// <param name="param">参数</param>
         /// <param name="transaction">外部事务</param>
         /// <param name="connection">数据库连接</param>
         /// <param name="commandType">命令类型</param>
         /// <returns></returns>
-        public object Execute(string sql, object param, IDbTransaction transaction, IDbConnection connection, CommandType commandType = CommandType.Text)
+        public T Execute<T>(string sql, object param, IDbTransaction transaction, IDbConnection connection, CommandType commandType = CommandType.Text)
         {
-            object obj = null;
+            T obj = default(T);
             if (connection.State == ConnectionState.Closed)
             {
                 connection.Open();
@@ -185,11 +191,11 @@ namespace Grapefruit.Infrastructure.Dapper
             {
                 if (commandType == CommandType.Text)
                 {
-                    obj = connection.QueryFirstOrDefault(sql, param, transaction, null, CommandType.Text);
+                    obj = connection.QueryFirstOrDefault<T>(sql, param, transaction, null, CommandType.Text);
                 }
                 else
                 {
-                    obj = connection.QueryFirstOrDefault(sql, param, transaction, null, CommandType.StoredProcedure);
+                    obj = connection.QueryFirstOrDefault<T>(sql, param, transaction, null, CommandType.StoredProcedure);
                 }
             }
             catch (Exception ex)
@@ -203,14 +209,15 @@ namespace Grapefruit.Infrastructure.Dapper
         /// <summary>
         /// 执行SQL语句或存储过程返回对象
         /// </summary>
+        /// <typeparam name="T">类型</typeparam>
         /// <param name="sql">SQL语句 or 存储过程名</param>
         /// <param name="param">参数</param>
         /// <param name="hasTransaction">是否使用事务</param>
         /// <param name="commandType">命令类型</param>
         /// <returns></returns>
-        public async Task<object> ExecuteAsync(string sql, object param, bool hasTransaction = false, CommandType commandType = CommandType.Text)
+        public async Task<T> ExecuteAsync<T>(string sql, object param, bool hasTransaction = false, CommandType commandType = CommandType.Text)
         {
-            object obj = null;
+            T obj = default(T);
             using (var connection = DbConnection())
             {
                 if (connection.State == ConnectionState.Closed)
@@ -226,11 +233,11 @@ namespace Grapefruit.Infrastructure.Dapper
                         {
                             if (commandType == CommandType.Text)
                             {
-                                obj = await connection.QueryFirstOrDefaultAsync(sql, param, transaction, null, CommandType.Text);
+                                obj = await connection.QueryFirstOrDefaultAsync<T>(sql, param, transaction, null, CommandType.Text);
                             }
                             else
                             {
-                                obj = await connection.QueryFirstOrDefaultAsync(sql, param, transaction, null, CommandType.StoredProcedure);
+                                obj = await connection.QueryFirstOrDefaultAsync<T>(sql, param, transaction, null, CommandType.StoredProcedure);
                             }
                             transaction.Commit();
                         }
@@ -247,11 +254,11 @@ namespace Grapefruit.Infrastructure.Dapper
                     {
                         if (commandType == CommandType.Text)
                         {
-                            obj = await connection.QueryFirstOrDefaultAsync(sql, param, null, null, CommandType.Text);
+                            obj = await connection.QueryFirstOrDefaultAsync<T>(sql, param, null, null, CommandType.Text);
                         }
                         else
                         {
-                            obj = await connection.QueryFirstOrDefaultAsync(sql, param, null, null, CommandType.StoredProcedure);
+                            obj = await connection.QueryFirstOrDefaultAsync<T>(sql, param, null, null, CommandType.StoredProcedure);
                         }
                     }
                     catch (Exception ex)
@@ -266,15 +273,16 @@ namespace Grapefruit.Infrastructure.Dapper
         /// <summary>
         /// 执行SQL语句返回对象
         /// </summary>
+        /// <typeparam name="T">类型</typeparam>
         /// <param name="sql">SQL语句 or 存储过程名</param>
         /// <param name="param">参数</param>
         /// <param name="transaction">外部事务</param>
         /// <param name="connection">数据库连接</param>
         /// <param name="commandType">命令类型</param>
         /// <returns></returns>
-        public async Task<object> ExecuteAsync(string sql, object param, IDbTransaction transaction, IDbConnection connection, CommandType commandType = CommandType.Text)
+        public async Task<T> ExecuteAsync<T>(string sql, object param, IDbTransaction transaction, IDbConnection connection, CommandType commandType = CommandType.Text)
         {
-            object obj = null;
+            T obj = default(T);
             if (connection.State == ConnectionState.Closed)
             {
                 connection.Open();
@@ -283,11 +291,11 @@ namespace Grapefruit.Infrastructure.Dapper
             {
                 if (commandType == CommandType.Text)
                 {
-                    obj = await connection.QueryFirstOrDefaultAsync(sql, param, transaction, null, CommandType.Text);
+                    obj = await connection.QueryFirstOrDefaultAsync<T>(sql, param, transaction, null, CommandType.Text);
                 }
                 else
                 {
-                    obj = await connection.QueryFirstOrDefaultAsync(sql, param, transaction, null, CommandType.StoredProcedure);
+                    obj = await connection.QueryFirstOrDefaultAsync<T>(sql, param, transaction, null, CommandType.StoredProcedure);
                 }
             }
             catch (Exception ex)
@@ -707,7 +715,7 @@ namespace Grapefruit.Infrastructure.Dapper
         }
 
         /// <summary>
-        /// 执行语句返回T对象
+        /// 执行语句返回单个值对象
         /// </summary>
         /// <typeparam name="T">类型</typeparam>
         /// <param name="sql">SQL语句 or 存储过程名</param>
@@ -762,7 +770,7 @@ namespace Grapefruit.Infrastructure.Dapper
         }
 
         /// <summary>
-        /// 执行语句返回T对象
+        /// 执行语句返回单个值对象
         /// </summary>
         /// <typeparam name="T">类型</typeparam>
         /// <param name="sql">SQL语句 or 存储过程名</param>
