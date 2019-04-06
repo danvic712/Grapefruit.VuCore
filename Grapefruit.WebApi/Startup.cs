@@ -2,6 +2,7 @@
 using Grapefruit.Infrastructure.Dapper;
 using Grapefruit.WebApi.Handlers;
 using Grapefruit.WebApi.Middlewares;
+using Grapefruit.WebApi.Swagger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -13,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Swagger;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -183,14 +185,19 @@ namespace Grapefruit.WebApi
                 //Show the api version in url address
                 s.DocInclusionPredicate((version, apiDescription) =>
                 {
+                    if (!version.Equals(apiDescription.GroupName))
+                        return false;
+
                     var values = apiDescription.RelativePath
                         .Split('/')
-                        .Select(v => v.Replace("v{version}", version));
+                        .Select(v => v.Replace("v{version}", apiDescription.GroupName));
 
                     apiDescription.RelativePath = string.Join("/", values);
-
                     return true;
                 });
+
+                //Remove version parameter
+                s.OperationFilter<RemoveVersionFromParameter>();
 
                 //Add comments description
                 //
@@ -267,7 +274,8 @@ namespace Grapefruit.WebApi
 
             app.UseSwaggerUI(s =>
             {
-                foreach (var description in provider.ApiVersionDescriptions)
+                //Default to show the latest api docs
+                foreach (var description in provider.ApiVersionDescriptions.Reverse())
                 {
                     s.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json",
                         $"Grapefruit.VuCore API {description.GroupName.ToUpperInvariant()}");

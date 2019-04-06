@@ -84,6 +84,38 @@
             </summary>
             <param name="id"></param>
         </member>
+        <member name="M:Grapefruit.WebApi.Controllers.v2.ValuesController.Get">
+            <summary>
+            GET请求（V2）： api/values
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Grapefruit.WebApi.Controllers.v2.ValuesController.Get(System.Int32)">
+            <summary>
+            GET请求（V2）： api/values/5
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Grapefruit.WebApi.Controllers.v2.ValuesController.Post(System.String)">
+            <summary>
+            POST请求（V2）： api/values
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:Grapefruit.WebApi.Controllers.v2.ValuesController.Put(System.Int32,System.String)">
+            <summary>
+            PUT请求（V2）： api/values/5
+            </summary>
+            <param name="id"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:Grapefruit.WebApi.Controllers.v2.ValuesController.Delete(System.Int32)">
+            <summary>
+            DELETE请求（V2）： api/values/5
+            </summary>
+            <param name="id"></param>
+        </member>
         <member name="P:Grapefruit.WebApi.Handlers.PolicyHandler.Schemes">
             <summary>
             授权方式（cookie, bearer, oauth, openid）
