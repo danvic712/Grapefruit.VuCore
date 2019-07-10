@@ -1,0 +1,264 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Grapefruit.Application</name>
+    </assembly>
+    <members>
+        <member name="P:Grapefruit.Application.Authorization.Jwt.Dto.JwtAuthorizationDto.Auths">
+            <summary>
+            授权时间
+            </summary>
+        </member>
+        <member name="P:Grapefruit.Application.Authorization.Jwt.Dto.JwtAuthorizationDto.Expires">
+            <summary>
+            过期时间
+            </summary>
+        </member>
+        <member name="P:Grapefruit.Application.Authorization.Jwt.Dto.JwtAuthorizationDto.Success">
+            <summary>
+            是否授权成功
+            </summary>
+        </member>
+        <member name="P:Grapefruit.Application.Authorization.Jwt.Dto.JwtAuthorizationDto.Token">
+            <summary>
+            Token
+            </summary>
+        </member>
+        <member name="P:Grapefruit.Application.Authorization.Jwt.Dto.JwtAuthorizationDto.UserId">
+            <summary>
+            用户主键
+            </summary>
+        </member>
+        <member name="P:Grapefruit.Application.Authorization.Jwt.Dto.JwtResponseDto.Access">
+            <summary>
+            访问 Token 值
+            </summary>
+        </member>
+        <member name="P:Grapefruit.Application.Authorization.Jwt.Dto.JwtResponseDto.Type">
+            <summary>
+            授权类型
+            </summary>
+        </member>
+        <member name="P:Grapefruit.Application.Authorization.Jwt.Dto.JwtResponseDto.Profile">
+            <summary>
+            个人信息
+            </summary>
+        </member>
+        <member name="T:Grapefruit.Application.Authorization.Jwt.Dto.Profile">
+            <summary>
+            个人信息
+            </summary>
+        </member>
+        <member name="P:Grapefruit.Application.Authorization.Jwt.Dto.Profile.Name">
+            <summary>
+            姓名
+            </summary>
+        </member>
+        <member name="P:Grapefruit.Application.Authorization.Jwt.Dto.Profile.Auths">
+            <summary>
+            授权时间戳
+            </summary>
+        </member>
+        <member name="P:Grapefruit.Application.Authorization.Jwt.Dto.Profile.Expires">
+            <summary>
+            过期时间戳
+            </summary>
+        </member>
+        <member name="M:Grapefruit.Application.Authorization.Jwt.IJwtAppService.Create(Grapefruit.Application.Authorization.Secret.Dto.UserDto)">
+            <summary>
+            新增 Jwt token
+            </summary>
+            <param name="dto">用户信息数据传输对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:Grapefruit.Application.Authorization.Jwt.IJwtAppService.RefreshAsync(System.String,Grapefruit.Application.Authorization.Secret.Dto.UserDto)">
+            <summary>
+            刷新 Token
+            </summary>
+            <param name="token">Token</param>
+            <param name="dto">用户信息数据传输对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:Grapefruit.Application.Authorization.Jwt.IJwtAppService.IsCurrentActiveTokenAsync">
+            <summary>
+            判断当前 Token 是否有效
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Grapefruit.Application.Authorization.Jwt.IJwtAppService.DeactivateCurrentAsync">
+            <summary>
+            停用当前 Token
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Grapefruit.Application.Authorization.Jwt.IJwtAppService.IsActiveAsync(System.String)">
+            <summary>
+            判断 Token 是否有效
+            </summary>
+            <param name="token">Token</param>
+            <returns></returns>
+        </member>
+        <member name="M:Grapefruit.Application.Authorization.Jwt.IJwtAppService.DeactivateAsync(System.String)">
+            <summary>
+            停用 Token
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="F:Grapefruit.Application.Authorization.Jwt.JwtAppService._tokens">
+            <summary>
+            已授权的 Token 信息集合
+            </summary>
+        </member>
+        <member name="F:Grapefruit.Application.Authorization.Jwt.JwtAppService._cache">
+            <summary>
+            分布式缓存
+            </summary>
+        </member>
+        <member name="F:Grapefruit.Application.Authorization.Jwt.JwtAppService._configuration">
+            <summary>
+            配置信息
+            </summary>
+        </member>
+        <member name="F:Grapefruit.Application.Authorization.Jwt.JwtAppService._httpContextAccessor">
+            <summary>
+            获取 HTTP 请求上下文
+            </summary>
+        </member>
+        <member name="M:Grapefruit.Application.Authorization.Jwt.JwtAppService.#ctor(Microsoft.Extensions.Caching.Distributed.IDistributedCache,Microsoft.AspNetCore.Http.IHttpContextAccessor,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            ctor
+            </summary>
+            <param name="cache"></param>
+            <param name="httpContextAccessor"></param>
+            <param name="configuration"></param>
+        </member>
+        <member name="M:Grapefruit.Application.Authorization.Jwt.JwtAppService.Create(Grapefruit.Application.Authorization.Secret.Dto.UserDto)">
+            <summary>
+            新增 Token
+            </summary>
+            <param name="dto">用户信息数据传输对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:Grapefruit.Application.Authorization.Jwt.JwtAppService.DeactivateAsync(System.String)">
+            <summary>
+            停用 Token
+            </summary>
+            <param name="token">Token</param>
+            <returns></returns>
+        </member>
+        <member name="M:Grapefruit.Application.Authorization.Jwt.JwtAppService.DeactivateCurrentAsync">
+            <summary>
+            停用当前 Token
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Grapefruit.Application.Authorization.Jwt.JwtAppService.IsActiveAsync(System.String)">
+            <summary>
+            判断 Token 是否有效
+            </summary>
+            <param name="token">Token</param>
+            <returns></returns>
+        </member>
+        <member name="M:Grapefruit.Application.Authorization.Jwt.JwtAppService.IsCurrentActiveTokenAsync">
+            <summary>
+            判断当前 Token 是否有效
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Grapefruit.Application.Authorization.Jwt.JwtAppService.RefreshAsync(System.String,Grapefruit.Application.Authorization.Secret.Dto.UserDto)">
+            <summary>
+            刷新 Token
+            </summary>
+            <param name="token">Token</param>
+            <param name="dto">用户信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Grapefruit.Application.Authorization.Jwt.JwtAppService.GetKey(System.String)">
+            <summary>
+            设置缓存中过期 Token 值的 key
+            </summary>
+            <param name="token">Token</param>
+            <returns></returns>
+        </member>
+        <member name="M:Grapefruit.Application.Authorization.Jwt.JwtAppService.GetCurrentAsync">
+            <summary>
+            获取 HTTP 请求的 Token 值
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Grapefruit.Application.Authorization.Jwt.JwtAppService.GetExistenceToken(System.String)">
+            <summary>
+            判断是否存在当前 Token
+            </summary>
+            <param name="token">Token</param>
+            <returns></returns>
+        </member>
+        <member name="P:Grapefruit.Application.Authorization.Secret.Dto.SecretDto.Account">
+            <summary>
+            账号名
+            </summary>
+        </member>
+        <member name="P:Grapefruit.Application.Authorization.Secret.Dto.SecretDto.Password">
+            <summary>
+            密码
+            </summary>
+        </member>
+        <member name="P:Grapefruit.Application.Authorization.Secret.Dto.SecretDto.Token">
+            <summary>
+            登录后授权的 Token
+            </summary>
+        </member>
+        <member name="P:Grapefruit.Application.Authorization.Secret.Dto.UserDto.Id">
+            <summary>
+            主键
+            </summary>
+        </member>
+        <member name="P:Grapefruit.Application.Authorization.Secret.Dto.UserDto.UserName">
+            <summary>
+            用户名
+            </summary>
+        </member>
+        <member name="P:Grapefruit.Application.Authorization.Secret.Dto.UserDto.Email">
+            <summary>
+            电子邮箱
+            </summary>
+        </member>
+        <member name="P:Grapefruit.Application.Authorization.Secret.Dto.UserDto.Phone">
+            <summary>
+            手机号码
+            </summary>
+        </member>
+        <member name="P:Grapefruit.Application.Authorization.Secret.Dto.UserDto.Role">
+            <summary>
+            角色
+            </summary>
+        </member>
+        <member name="M:Grapefruit.Application.Authorization.Secret.ISecretAppService.GetCurrentUserAsync(System.String,System.String)">
+            <summary>
+            获取登录用户信息
+            </summary>
+            <param name="account">账户名</param>
+            <param name="password">密码</param>
+            <returns></returns>
+        </member>
+        <member name="F:Grapefruit.Application.Authorization.Secret.SecretAppService._secret">
+            <summary>
+            领域接口
+            </summary>
+        </member>
+        <member name="M:Grapefruit.Application.Authorization.Secret.SecretAppService.#ctor(Grapefruit.Domain.Authorization.Secret.ISecretDomain)">
+            <summary>
+            ctor
+            </summary>
+            <param name="secret"></param>
+        </member>
+        <member name="M:Grapefruit.Application.Authorization.Secret.SecretAppService.GetCurrentUserAsync(System.String,System.String)">
+            <summary>
+            获取登录用户信息
+            </summary>
+            <param name="account">账户名</param>
+            <param name="password">密码</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
