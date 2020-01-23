@@ -1,8 +1,8 @@
 ## Attention：
 
-This repo was created when I started learning ASP.NET Core Web API, after more than a year of training and experience in work, many things are not suitable anymore, so this project will no longer update any code. I will move all code into [ingos-server](https://github.com/Lanesra712/ingos-server,"") repo which based on ddd thought, thanks for support~~~
+This repo was created when I started learning ASP.NET Core Web API, after more than a year of training and experience in work, many things are not suitable anymore, so this project will no longer update any code. I will move all code into [ingos-server](https://github.com/Lanesra712/ingos-server "") repo which based on ddd thought, thanks for support~~~
 
-这个项目是当时开始学习 ASP.NET Core Web API 时创建的，经过自己一年多的练手以及在工作中的使用经验，很多东西已经不太适合了，因此，这个项目将不再更新任何的代码。后续我会将所有的代码移动到 [ingos-server](https://github.com/Lanesra712/ingos-server,"") 这个基于领域驱动思想构建的项目中，感谢大家的支持~~~
+这个项目是当时开始学习 ASP.NET Core Web API 时创建的，经过自己一年多的练手以及在工作中的使用经验，很多东西已经不太适合了，因此，这个项目将不再更新任何的代码。后续我会将所有的代码移动到 [ingos-server](https://github.com/Lanesra712/ingos-server "") 这个基于领域驱动思想构建的项目中，感谢大家的支持~~~
 
 
 
