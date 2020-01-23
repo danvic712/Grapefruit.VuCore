@@ -1,3 +1,7 @@
+## 注意：
+
+这个项目是当时开始学习 ASP.NET Core Web API 时创建的，经过自己一年多的练手以及在工作中的使用经验，很多东西已经不太适合了，因此，这个项目将不再更新任何的代码，后续会将所有的代码移动到 [ingos-server](https://github.com/Lanesra712/ingos-server,"") 这个基于领域驱动思想构建的项目中，感谢大家的支持~~~
+
 # Grapefruit.VuCore | [English](/README.md "English")
 
 Grapefruit.VuCore 是一个使用 ASP.NET Core 和 Vue.js 构建的前后端分离模板项目。
